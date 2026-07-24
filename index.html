@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaikolFollowers Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#050810;
+  --void-2:#0a1020;
+  --panel:#0d1526;
+  --panel-2:#111b30;
+  --line:rgba(120,170,255,.14);
+  --blue:#00d9ff;
+  --blue-2:#5be0ff;
+  --gold:#ffcc33;
+  --gold-2:#ffe08a;
+  --text:#e8f0ff;
+  --text-dim:#8ea0c4;
+  --danger:#ff4d6d;
+  --ok:#38e6a0;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,217,255,.08), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(255,204,51,.05), transparent),
+    var(--void);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001s !important; transition-duration:.001s !important;}
+}
+h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.hidden{display:none !important;}
+::selection{background:var(--blue);color:var(--void);}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;}
+
+#boltLayer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bolt-svg{position:absolute;opacity:0;filter:drop-shadow(0 0 12px var(--blue)) drop-shadow(0 0 24px var(--blue));}
+@keyframes boltFlash{
+  0%{opacity:0;}
+  4%{opacity:.9;}
+  7%{opacity:.15;}
+  10%{opacity:.7;}
+  14%{opacity:0;}
+  100%{opacity:0;}
+}
+.bolt-flash{animation:boltFlash 5.5s ease-in-out infinite;}
+
+.screen{position:relative;z-index:1;min-height:100vh;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+
+.mirror{
+  position:relative;
+  background:linear-gradient(155deg, rgba(20,30,55,.85) 0%, rgba(9,13,24,.9) 55%, rgba(15,22,40,.85) 100%);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  backdrop-filter:blur(10px);
+  overflow:hidden;
+}
+.mirror::before{
+  content:"";
+  position:absolute;
+  top:-60%;left:-60%;
+  width:60%;height:220%;
+  background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.10) 48%, rgba(0,217,255,.18) 52%, transparent 70%);
+  transform:translateX(-120%) rotate(8deg);
+  transition:transform .9s ease;
+  pointer-events:none;
+}
+.mirror:hover::before{transform:translateX(220%) rotate(8deg);}
+
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:rgba(6,10,20,.75);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1180px;margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;font-size:1.05rem;letter-spacing:.5px;color:var(--text);}
+.brand-photo{width:38px;height:38px;border-radius:10px;object-fit:cover;border:1px solid var(--line);box-shadow:0 0 14px rgba(0,217,255,.35);background:var(--panel-2);}
+.brand b{background:linear-gradient(90deg,var(--blue-2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.top-actions{display:flex;align-items:center;gap:10px;}
+.user-chip{font-size:.8rem;color:var(--text-dim);padding:6px 12px;border:1px solid var(--line);border-radius:999px;}
+
+.btn{
+  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.5px;
+  font-size:.92rem;padding:10px 20px;border-radius:10px;border:1px solid transparent;
+  cursor:pointer;transition:transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+  text-transform:uppercase;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:linear-gradient(90deg,var(--blue),var(--blue-2));color:#00131a;box-shadow:0 0 18px rgba(0,217,255,.35);}
+.btn-primary:hover{box-shadow:0 0 26px rgba(0,217,255,.55);}
+.btn-gold{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:#241900;box-shadow:0 0 18px rgba(255,204,51,.3);}
+.btn-gold:hover{box-shadow:0 0 26px rgba(255,204,51,.5);}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue-2);}
+.btn-danger{background:transparent;color:var(--danger);border-color:rgba(255,77,109,.4);}
+.btn-danger:hover{background:rgba(255,77,109,.1);}
+.btn-sm{padding:6px 12px;font-size:.75rem;}
+.btn-block{width:100%;}
+.btn[disabled]{opacity:.5;cursor:not-allowed;}
+
+.bolt-divider{display:flex;justify-content:center;margin:6px 0 26px;}
+.bolt-divider svg{width:120px;height:34px;}
+.bolt-divider path{
+  stroke:url(#boltGrad);
+  stroke-width:3;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:140;
+  stroke-dashoffset:140;
+  animation:boltDraw 2.4s ease-in-out infinite;
+}
+@keyframes boltDraw{
+  0%{stroke-dashoffset:140;}
+  35%{stroke-dashoffset:0;}
+  70%{stroke-dashoffset:0;opacity:1;}
+  85%{opacity:.3;}
+  100%{stroke-dashoffset:0;opacity:1;}
+}
+
+.auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;}
+.auth-box{width:100%;max-width:420px;padding:34px 30px;}
+.auth-title{font-size:1.4rem;text-align:center;margin-bottom:4px;}
+.auth-sub{text-align:center;color:var(--text-dim);font-size:.85rem;margin-bottom:22px;}
+.tabs-switch{display:flex;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:4px;margin-bottom:20px;}
+.tabs-switch button{flex:1;background:transparent;border:0;color:var(--text-dim);padding:9px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.4px;cursor:pointer;transition:all .2s;}
+.tabs-switch button.active{background:linear-gradient(90deg,var(--blue),var(--blue-2));color:#00131a;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:.75rem;color:var(--text-dim);margin-bottom:6px;letter-spacing:.4px;text-transform:uppercase;}
+.field input{
+  width:100%;padding:11px 13px;background:rgba(255,255,255,.03);
+  border:1px solid var(--line);border-radius:9px;color:var(--text);font-size:.92rem;
+  transition:border-color .2s, box-shadow .2s;
+}
+.field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,217,255,.15);}
+.auth-foot{margin-top:16px;text-align:center;font-size:.8rem;color:var(--text-dim);}
+.auth-foot a{color:var(--blue-2);cursor:pointer;text-decoration:underline;}
+
+#floatAlert{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-140%);
+  z-index:200;padding:14px 22px;border-radius:12px;
+  background:rgba(20,10,15,.92);border:1px solid rgba(255,77,109,.5);
+  color:#ffd7de;font-family:'Rajdhani',sans-serif;font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 20px rgba(255,77,109,.25);
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.3);
+  max-width:90vw;text-align:center;
+}
+#floatAlert.show{transform:translateX(-50%) translateY(0);}
+#floatAlert.ok{border-color:rgba(56,230,160,.5);color:#c9ffe9;box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 20px rgba(56,230,160,.25);}
+
+.promo-fixed{margin:18px 0;padding:16px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;}
+.promo-fixed img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--line);}
+.promo-fixed .pf-text{flex:1;min-width:0;}
+.promo-fixed .pf-tag{font-size:.68rem;letter-spacing:1px;color:var(--gold);text-transform:uppercase;font-weight:700;}
+.promo-fixed .pf-title{font-size:.98rem;font-weight:700;margin-top:2px;}
+.promo-fixed .pf-desc{font-size:.8rem;color:var(--text-dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+#promoOverlay{
+  position:fixed;inset:0;z-index:150;background:rgba(2,4,10,.72);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(4px);
+}
+.promo-modal{width:100%;max-width:420px;padding:0;position:relative;}
+.promo-modal .pm-close{
+  position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;
+  background:rgba(0,0,0,.5);border:1px solid var(--line);color:var(--text);
+  font-size:1rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;
+}
+.promo-modal .pm-img{width:100%;height:190px;object-fit:cover;display:block;}
+.promo-modal .pm-body{padding:20px;}
+.promo-modal .pm-tag{color:var(--gold);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+.promo-modal .pm-title{font-size:1.25rem;margin:6px 0 8px;}
+.promo-modal .pm-desc{color:var(--text-dim);font-size:.88rem;line-height:1.5;margin-bottom:16px;}
+.pm-timer{font-size:.7rem;color:var(--text-dim);text-align:center;margin-top:10px;}
+
+.hero{padding:36px 0 6px;text-align:center;}
+.hero h1{font-size:1.7rem;letter-spacing:.5px;}
+.hero p{color:var(--text-dim);font-size:.88rem;margin-top:8px;}
+.platform-tabs{display:flex;gap:10px;overflow-x:auto;padding:6px 0 20px;}
+.platform-tabs button{
+  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.4px;white-space:nowrap;
+  padding:10px 18px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.02);
+  color:var(--text-dim);cursor:pointer;transition:all .2s;
+}
+.platform-tabs button.active{color:#00131a;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-color:transparent;box-shadow:0 0 16px rgba(255,204,51,.3);}
+.cat-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.cat-tabs button{
+  font-family:'Rajdhani',sans-serif;font-weight:600;padding:8px 16px;border-radius:999px;
+  border:1px solid var(--line);background:transparent;color:var(--text-dim);cursor:pointer;transition:all .2s;
+}
+.cat-tabs button.active{border-color:var(--blue);color:var(--blue-2);background:rgba(0,217,255,.08);}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;padding-bottom:50px;}
+.card{padding:18px;display:flex;flex-direction:column;gap:10px;}
+.card .cid{position:absolute;top:12px;right:12px;font-size:.62rem;color:var(--text-dim);letter-spacing:.5px;}
+.card .cimg{width:100%;height:110px;border-radius:10px;object-fit:cover;background:var(--panel-2);border:1px solid var(--line);}
+.card .cname{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;}
+.card .cprices{display:flex;flex-direction:column;gap:3px;font-size:.78rem;color:var(--text-dim);}
+.card .cprices b{color:var(--gold-2);font-family:'JetBrains Mono',monospace;}
+.card .cbuy{margin-top:auto;}
+.empty-note{color:var(--text-dim);font-size:.85rem;padding:30px;text-align:center;}
+
+#buyOverlay{position:fixed;inset:0;z-index:160;background:rgba(2,4,10,.72);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.buy-modal{width:100%;max-width:440px;padding:24px;position:relative;}
+.buy-modal h3{font-size:1.15rem;margin-bottom:4px;}
+.buy-summary{font-size:.85rem;color:var(--text-dim);margin-bottom:18px;}
+.pay-options{display:flex;gap:10px;margin-bottom:18px;}
+.pay-opt{
+  flex:1;padding:14px 10px;border-radius:12px;border:1px solid var(--line);cursor:pointer;
+  text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--text-dim);
+  background:rgba(255,255,255,.02);transition:all .2s;
+}
+.pay-opt.active{border-color:var(--blue);color:var(--blue-2);background:rgba(0,217,255,.08);box-shadow:0 0 14px rgba(0,217,255,.2);}
+.pay-opt small{display:block;font-weight:500;font-size:.68rem;color:var(--text-dim);margin-top:3px;}
+.buy-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px dashed var(--line);margin-bottom:16px;}
+.buy-total b{font-family:'JetBrains Mono',monospace;color:var(--gold-2);font-size:1.2rem;}
+.modal-close-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-dim);font-size:1.2rem;cursor:pointer;}
+
+.surge{display:none;text-align:center;padding:10px 0 4px;}
+.surge.show{display:block;}
+.surge svg{width:70px;height:70px;}
+.surge path{stroke:url(#boltGrad);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:160;stroke-dashoffset:160;animation:surgeDraw .7s ease forwards;}
+@keyframes surgeDraw{to{stroke-dashoffset:0;}}
+
+.admin-shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+.admin-side{background:rgba(6,10,20,.6);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px;}
+.admin-side .brand{margin-bottom:18px;padding:0 6px;}
+.admin-nav-btn{
+  text-align:left;background:transparent;border:1px solid transparent;color:var(--text-dim);
+  padding:10px 12px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;
+  cursor:pointer;transition:all .2s;letter-spacing:.3px;
+}
+.admin-nav-btn.active{background:rgba(0,217,255,.08);border-color:var(--line);color:var(--blue-2);}
+.admin-nav-btn:hover{color:var(--text);}
+.admin-main{padding:26px 30px 60px;overflow-y:auto;}
+.admin-main h2{font-size:1.3rem;margin-bottom:18px;}
+.admin-card{padding:20px;margin-bottom:20px;}
+.admin-card h3{font-size:.95rem;margin-bottom:14px;color:var(--blue-2);letter-spacing:.4px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr;}}
+table{width:100%;border-collapse:collapse;font-size:.85rem;}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);}
+th{color:var(--text-dim);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;}
+td.actions{display:flex;gap:6px;}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.68rem;font-weight:700;letter-spacing:.4px;}
+.pill.on{background:rgba(56,230,160,.15);color:var(--ok);}
+.pill.off{background:rgba(255,255,255,.06);color:var(--text-dim);}
+.img-prev{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--line);}
+.file-drop{border:1px dashed var(--line);border-radius:10px;padding:10px;font-size:.78rem;color:var(--text-dim);cursor:pointer;text-align:center;}
+.file-drop input{display:none;}
+.admin-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px;}
+.admin-mobile-toggle{display:none;}
+@media(max-width:840px){
+  .admin-shell{grid-template-columns:1fr;}
+  .admin-side{position:fixed;top:0;left:0;bottom:0;width:220px;z-index:80;transform:translateX(-100%);transition:transform .25s;}
+  .admin-side.open{transform:translateX(0);}
+  .admin-mobile-toggle{display:inline-flex;}
+}
+.chip-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.chip-select button{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text-dim);font-size:.8rem;cursor:pointer;}
+.chip-select button.active{background:var(--blue);color:#00131a;border-color:transparent;font-weight:700;}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0"><defs>
+  <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#00d9ff"/>
+    <stop offset="100%" stop-color="#ffcc33"/>
+  </linearGradient>
+</defs></svg>
+
+<div id="boltLayer"></div>
+<div id="floatAlert"></div>
+
+<section id="authScreen" class="screen auth-screen hidden">
+  <div class="auth-box mirror">
+    <div class="auth-title">⚡ MaikolFollowers <span style="color:var(--gold)">Pro</span></div>
+    <div class="auth-sub">Accede a tu catálogo de servicios digitales</div>
+    <div class="tabs-switch">
+      <button id="tabLoginBtn" class="active" onclick="setAuthTab('login')">Iniciar sesión</button>
+      <button id="tabRegisterBtn" onclick="setAuthTab('register')">Registrarme</button>
+    </div>
+
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+      <div class="field"><label>Correo electrónico</label><input type="email" id="loginEmail" required></div>
+      <div class="field"><label>Contraseña</label><input type="password" id="loginPass" required></div>
+      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+    </form>
+
+    <form id="registerForm" class="hidden" onsubmit="return handleRegister(event)">
+      <div class="field"><label>Nombre completo</label><input type="text" id="regName" required></div>
+      <div class="field"><label>Teléfono</label><input type="tel" id="regPhone" required></div>
+      <div class="field"><label>Correo electrónico</label><input type="email" id="regEmail" required></div>
+      <div class="field"><label>Contraseña</label><input type="password" id="regPass" required minlength="4"></div>
+      <button type="submit" class="btn btn-gold btn-block">Crear cuenta</button>
+    </form>
+
+    <div class="auth-foot">¿Eres administrador? <a onclick="showAdminLogin()">Acceso privado</a></div>
+  </div>
+</section>
+
+<section id="adminAuthScreen" class="screen auth-screen hidden">
+  <div class="auth-box mirror">
+    <div class="auth-title">🔒 Panel Administrativo</div>
+    <div class="auth-sub">Acceso restringido</div>
+    <form onsubmit="return handleAdminLogin(event)">
+      <div class="field"><label>Usuario</label><input type="text" id="adminUser" required></div>
+      <div class="field"><label>Contraseña</label><input type="password" id="adminPass" required></div>
+      <button type="submit" class="btn btn-primary btn-block">Acceder</button>
+    </form>
+    <div class="auth-foot"><a onclick="showClientAuth()">← Volver al catálogo</a></div>
+  </div>
+</section>
+
+<section id="appScreen" class="screen hidden">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><img id="brandPhoto" class="brand-photo" src="" alt=""><span id="brandName"><b>MaikolFollowers Pro</b></span></div>
+      <div class="top-actions">
+        <span class="user-chip" id="userChip"></span>
+        <button class="btn btn-ghost btn-sm" onclick="logoutClient()">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero">
+      <h1>Impulsa tus redes sociales <span style="color:var(--gold)">al instante</span></h1>
+      <p>Seguidores, likes y vistas reales con entrega garantizada</p>
+    </div>
+    <div class="bolt-divider"><svg viewBox="0 0 60 30"><path d="M32 2 L14 17 L24 17 L18 28 L46 12 L34 12 Z"/></svg></div>
+
+    <div id="promoFixedWrap"></div>
+
+    <div class="platform-tabs" id="platformTabs"></div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<div id="promoOverlay" class="hidden">
+  <div class="promo-modal mirror">
+    <button class="pm-close" onclick="closePromoPopup(true)">✕</button>
+    <img class="pm-img" id="promoPopupImg" src="" alt="">
+    <div class="pm-body">
+      <div class="pm-tag">⚡ Promoción activa</div>
+      <div class="pm-title" id="promoPopupTitle"></div>
+      <div class="pm-desc" id="promoPopupDesc"></div>
+      <button class="btn btn-gold btn-block" id="promoPopupCta" onclick="promoCtaClick()">Ver promoción</button>
+      <div class="pm-timer" id="promoTimerText">Puedes cerrar en 10s...</div>
+    </div>
+  </div>
+</div>
+
+<div id="buyOverlay" class="hidden">
+  <div class="buy-modal mirror">
+    <button class="modal-close-x" onclick="closeBuyModal()">✕</button>
+    <h3 id="buyProdName"></h3>
+    <div class="buy-summary" id="buySummary"></div>
+
+    <div class="pay-options">
+      <div class="pay-opt" id="payOptTransfer" onclick="selectPayMethod('Transferencia')">
+        Transferencia<small>Bancaria</small>
+      </div>
+      <div class="pay-opt" id="payOptSaldo" onclick="selectPayMethod('Saldo Móvil')">
+        Saldo Móvil<small>Recarga directa</small>
+      </div>
+    </div>
+
+    <div class="buy-total">
+      <span style="color:var(--text-dim);font-size:.85rem;">Total a pagar</span>
+      <b id="buyTotalPrice">—</b>
+    </div>
+
+    <button class="btn btn-primary btn-block" id="confirmBuyBtn" disabled onclick="confirmPurchase()">Continuar a WhatsApp</button>
+
+    <div class="surge" id="surgeAnim">
+      <svg viewBox="0 0 60 30"><path d="M32 2 L14 17 L24 17 L18 28 L46 12 L34 12 Z"/></svg>
+      <div style="color:var(--ok);font-size:.85rem;font-weight:700;margin-top:6px;">Redirigiendo a WhatsApp...</div>
+    </div>
+  </div>
+</div>
+
+<section id="adminScreen" class="screen hidden">
+  <div class="admin-shell">
+    <aside class="admin-side" id="adminSide">
+      <div class="brand"><img id="adminBrandPhoto" class="brand-photo" src="" alt=""><span><b>Admin</b></span></div>
+      <button class="admin-nav-btn active" data-tab="general" onclick="setAdminTab('general')">⚙ General</button>
+      <button class="admin-nav-btn" data-tab="catalogo" onclick="setAdminTab('catalogo')">📦 Catálogo</button>
+      <button class="admin-nav-btn" data-tab="plataformas" onclick="setAdminTab('plataformas')">🌐 Plataformas</button>
+      <button class="admin-nav-btn" data-tab="marketing" onclick="setAdminTab('marketing')">📣 Marketing</button>
+      <button class="admin-nav-btn" data-tab="pedidos" onclick="setAdminTab('pedidos')">🧾 Pedidos</button>
+      <button class="admin-nav-btn" data-tab="credenciales" onclick="setAdminTab('credenciales')">🔑 Credenciales</button>
+      <div style="flex:1;"></div>
+      <button class="btn btn-danger btn-sm" onclick="logoutAdmin()">Cerrar sesión</button>
+    </aside>
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <button class="btn btn-ghost btn-sm admin-mobile-toggle" onclick="toggleAdminSide()">☰ Menú</button>
+        <div style="flex:1"></div>
+      </div>
+      <div id="adminContent"></div>
+    </main>
+  </div>
+</section>
+
+<script>
+const WA_NUMBER = "5353215857";
+const LS = {
+  users:"mfp_users", session:"mfp_session", admin:"mfp_admin", adminSession:"mfp_admin_session",
+  platforms:"mfp_platforms", promo:"mfp_promo", orders:"mfp_orders"
+};
+
+function getLS(key, fallback){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
+function setLS(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+function uid(prefix){ return prefix + "-" + Math.random().toString(36).slice(2,7).toUpperCase(); }
+function fmtCUP(n){ return "$" + Number(n).toLocaleString("es-CU") + " CUP"; }
+function nowStr(){
+  const d = new Date();
+  return d.toLocaleDateString("es-CU") + " " + d.toLocaleTimeString("es-CU", {hour:'2-digit', minute:'2-digit'});
+}
+
+function defaultInstagramCategories(){
+  const seguidores = [
+    [1000,1200],[2000,2400],[3000,3600],[4000,4800],[5000,6000],
+    [10000,11500],[20000,22500],[30000,33000],[40000,44000],[50000,54000],
+    [100000,105000],[200000,205000],[300000,300000]
+  ];
+  const likes = [
+    [1000,400],[2000,800],[3000,1200],[4000,1600],[5000,1950],
+    [10000,3800],[20000,7400],[30000,11000],[40000,14500],[50000,18000],
+    [100000,35000],[200000,68000],[300000,100000]
+  ];
+  const vistas = [
+    [1000,350],[2000,700],[3000,1050],[4000,1400],[5000,1700],
+    [10000,3300],[20000,6400],[30000,9500],[40000,12500],[50000,15500],
+    [100000,30000],[200000,58000],[300000,25500]
+  ];
+  const mk = (label, arr) => ({
+    id: uid("CAT"), name: label,
+    products: arr.map(([qty, transfer]) => ({
+      id: uid("PRD"),
+      name: qty.toLocaleString("es-CU") + " " + label.toLowerCase(),
+      qty: qty,
+      priceTransfer: transfer,
+      priceSaldo: Math.round(transfer * 1.06),
+      image: ""
+    }))
+  });
+  return [ mk("Seguidores", seguidores), mk("Likes", likes), mk("Vistas", vistas) ];
+}
+
+function initData(){
+  if(!localStorage.getItem(LS.platforms)){
+    setLS(LS.platforms, [
+      { id: uid("PLT"), name:"Instagram", icon:"📸", categories: defaultInstagramCategories() }
+    ]);
+  }
+  if(!localStorage.getItem(LS.admin)){
+    setLS(LS.admin, { username:"admin", password:"admin123", catalogName:"MaikolFollowers Pro", photo:"" });
+  }
+  if(!localStorage.getItem(LS.users)) setLS(LS.users, []);
+  if(!localStorage.getItem(LS.orders)) setLS(LS.orders, []);
+  if(!localStorage.getItem(LS.promo)){
+    setLS(LS.promo, {
+      title:"¡Rifa de 10,000 seguidores gratis!",
+      desc:"Compra cualquier paquete esta semana y participa automáticamente en la rifa mensual. Ganador anunciado cada viernes.",
+      image:"",
+      ctaText:"Ver promoción",
+      ctaLink:"",
+      active:true,
+      createdAt: nowStr()
+    });
+  }
+}
+initData();
+
+function spawnBolts(){
+  const layer = document.getElementById('boltLayer');
+  layer.innerHTML = "";
+  const positions = [ [8,'-2%','6%'], [70,'4%','65%'], [40,'50%','30%'] ];
+  positions.forEach((p,i)=>{
+    const s = document.createElementNS("http://www.w3.org/2000/svg","svg");
+    s.setAttribute("viewBox","0 0 60 140");
+    s.setAttribute("class","bolt-svg bolt-flash");
+    s.style.width = "60px"; s.style.height="140px";
+    s.style.top = p[1]; s.style.left = p[2];
+    s.style.animationDelay = (i*1.8)+"s";
+    s.innerHTML = '<path d="M34 0 L10 70 L26 70 L14 140 L52 55 L32 55 Z" fill="url(#boltGrad)" opacity="0.55"/>';
+    layer.appendChild(s);
+  });
+}
+spawnBolts();
+
+let alertTimer=null;
+function showFloatAlert(msg, type){
+  const el = document.getElementById('floatAlert');
+  el.textContent = msg;
+  el.className = type==='ok' ? 'show ok' : 'show';
+  clearTimeout(alertTimer);
+  alertTimer = setTimeout(()=>{ el.classList.remove('show'); }, 3600);
+}
+
+function showScreen(id){
+  ['authScreen','adminAuthScreen','appScreen','adminScreen'].forEach(s=>{
+    document.getElementById(s).classList.toggle('hidden', s!==id);
+  });
+}
+function showClientAuth(){ showScreen('authScreen'); }
+function showAdminLogin(){ showScreen('adminAuthScreen'); }
+
+function setAuthTab(tab){
+  document.getElementById('tabLoginBtn').classList.toggle('active', tab==='login');
+  document.getElementById('tabRegisterBtn').classList.toggle('active', tab==='register');
+  document.getElementById('loginForm').classList.toggle('hidden', tab!=='login');
+  document.getElementById('registerForm').classList.toggle('hidden', tab!=='register');
+}
+
+function handleRegister(e){
+  e.preventDefault();
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('regPass').value;
+  const users = getLS(LS.users, []);
+  if(users.some(u=>u.email===email)){
+    showFloatAlert("Ese correo ya está registrado. Intenta iniciar sesión.");
+    return false;
+  }
+  const user = { id: uid("USR"), name, phone, email, password: pass, createdAt: nowStr() };
+  users.push(user);
+  setLS(LS.users, users);
+  setLS(LS.session, { userId: user.id });
+  showFloatAlert("¡Cuenta creada con éxito!", "ok");
+  enterApp();
+  return false;
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPass').value;
+  const users = getLS(LS.users, []);
+  const found = users.find(u=>u.email===email && u.password===pass);
+  if(!found){
+    showFloatAlert("Credenciales incorrectas. Regístrate si eres nuevo.");
+    setAuthTab('register');
+    return false;
+  }
+  setLS(LS.session, { userId: found.id });
+  enterApp();
+  return false;
+}
+
+function logoutClient(){
+  localStorage.removeItem(LS.session);
+  showClientAuth();
+}
+
+function currentUser(){
+  const sess = getLS(LS.session, null);
+  if(!sess) return null;
+  const users = getLS(LS.users, []);
+  return users.find(u=>u.id===sess.userId) || null;
+}
+
+function handleAdminLogin(e){
+  e.preventDefault();
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  const admin = getLS(LS.admin, {});
+  if(admin.username===u && admin.password===p){
+    setLS(LS.adminSession, { ok:true });
+    enterAdmin();
+  } else {
+    showFloatAlert("Usuario o contraseña de administrador incorrectos.");
+  }
+  return false;
+}
+function logoutAdmin(){
+  localStorage.removeItem(LS.adminSession);
+  showAdminLogin();
+}
+
+function applyBranding(){
+  const admin = getLS(LS.admin, {});
+  document.getElementById('brandName').innerHTML = "<b>"+ (admin.catalogName||"MaikolFollowers Pro") +"</b>";
+  document.title = admin.catalogName || "MaikolFollowers Pro";
+  const photo = admin.photo || "https://api.dicebear.com/7.x/shapes/svg?seed=mfp";
+  document.getElementById('brandPhoto').src = photo;
+  document.getElementById('adminBrandPhoto').src = photo;
+}
+
+let state = { platformId:null, catId:null };
+
+function enterApp(){
+  applyBranding();
+  const user = currentUser();
+  document.getElementById('userChip').textContent = user ? ("👤 " + user.name) : "";
+  showScreen('appScreen');
+  renderPromoFixed();
+  renderPlatformTabs();
+  maybeShowPromoPopup();
+}
+
+function enterAdmin(){
+  applyBranding();
+  showScreen('adminScreen');
+  setAdminTab('general');
+}
+
+function renderPlatformTabs(){
+  const platforms = getLS(LS.platforms, []);
+  const box = document.getElementById('platformTabs');
+  box.innerHTML = "";
+  if(!platforms.length){ box.innerHTML = '<div class="empty-note">Aún no hay plataformas configuradas.</div>'; return; }
+  if(!state.platformId || !platforms.some(p=>p.id===state.platformId)) state.platformId = platforms[0].id;
+  platforms.forEach(p=>{
+    const b = document.createElement('button');
+    b.textContent = (p.icon||"") + " " + p.name;
+    b.className = p.id===state.platformId ? 'active' : '';
+    b.onclick = ()=>{ state.platformId = p.id; state.catId=null; renderPlatformTabs(); };
+    box.appendChild(b);
+  });
+  renderCatTabs();
+}
+
+function renderCatTabs(){
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===state.platformId);
+  const box = document.getElementById('catTabs');
+  box.innerHTML = "";
+  if(!plat || !plat.categories.length){ box.innerHTML=''; renderProductGrid(); return; }
+  if(!state.catId || !plat.categories.some(c=>c.id===state.catId)) state.catId = plat.categories[0].id;
+  plat.categories.forEach(c=>{
+    const b = document.createElement('button');
+    b.textContent = c.name;
+    b.className = c.id===state.catId ? 'active' : '';
+    b.onclick = ()=>{ state.catId = c.id; renderCatTabs(); };
+    box.appendChild(b);
+  });
+  renderProductGrid();
+}
+
+function renderProductGrid(){
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===state.platformId);
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = "";
+  if(!plat){ return; }
+  const cat = plat.categories.find(c=>c.id===state.catId);
+  if(!cat || !cat.products.length){
+    grid.innerHTML = '<div class="empty-note">No hay productos en esta categoría todavía.</div>';
+    return;
+  }
+  cat.products.forEach(prod=>{
+    const card = document.createElement('div');
+    card.className = 'card mirror';
+    card.innerHTML = `
+      <span class="cid mono">#${prod.id}</span>
+      ${prod.image ? `<img class="cimg" src="${prod.image}">` : ''}
+      <div class="cname">${prod.name}</div>
+      <div class="cprices">
+        <span>Transferencia: <b>${fmtCUP(prod.priceTransfer)}</b></span>
+        <span>Saldo Móvil: <b>${fmtCUP(prod.priceSaldo)}</b></span>
+      </div>
+      <button class="btn btn-primary cbuy">Comprar</button>
+    `;
+    card.querySelector('.cbuy').onclick = ()=> openBuyModal(plat, cat, prod);
+    grid.appendChild(card);
+  });
+}
+
+function renderPromoFixed(){
+  const promo = getLS(LS.promo, null);
+  const wrap = document.getElementById('promoFixedWrap');
+  if(!promo || !promo.active){ wrap.innerHTML = ""; return; }
+  wrap.innerHTML = `
+    <div class="promo-fixed mirror" onclick="openPromoFromFixed()">
+      ${promo.image ? `<img src="${promo.image}">` : '<div style="font-size:1.6rem;">🎁</div>'}
+      <div class="pf-text">
+        <div class="pf-tag">Promoción / Rifa activa</div>
+        <div class="pf-title">${promo.title}</div>
+        <div class="pf-desc">${promo.desc||""}</div>
+      </div>
+      <button class="btn btn-gold btn-sm">Ver</button>
+    </div>
+  `;
+}
+function openPromoFromFixed(){ openPromoPopup(false); }
+
+let promoCanClose = false;
+let promoTimerInterval = null;
+
+function maybeShowPromoPopup(){
+  const promo = getLS(LS.promo, null);
+  if(!promo || !promo.active) return;
+  openPromoPopup(true);
+}
+
+function openPromoPopup(withTimer){
+  const promo = getLS(LS.promo, null);
+  if(!promo) return;
+  document.getElementById('promoPopupTitle').textContent = promo.title;
+  document.getElementById('promoPopupDesc').textContent = promo.desc||"";
+  const img = document.getElementById('promoPopupImg');
+  if(promo.image){ img.src = promo.image; img.style.display='block'; } else { img.style.display='none'; }
+  document.getElementById('promoPopupCta').textContent = promo.ctaText || "Ver promoción";
+  document.getElementById('promoOverlay').classList.remove('hidden');
+
+  promoCanClose = !withTimer;
+  const timerText = document.getElementById('promoTimerText');
+  clearInterval(promoTimerInterval);
+  if(withTimer){
+    let remaining = 10;
+    timerText.textContent = `Puedes cerrar en ${remaining}s...`;
+    promoTimerInterval = setInterval(()=>{
+      remaining--;
+      if(remaining<=0){
+        promoCanClose = true;
+        clearInterval(promoTimerInterval);
+        closePromoPopup(true, true);
+      } else {
+        timerText.textContent = `Puedes cerrar en ${remaining}s...`;
+      }
+    },1000);
+  } else {
+    timerText.textContent = "";
+  }
+}
+
+function closePromoPopup(manual, auto){
+  if(manual && !promoCanClose && !auto) return;
+  clearInterval(promoTimerInterval);
+  document.getElementById('promoOverlay').classList.add('hidden');
+}
+
+function promoCtaClick(){
+  const promo = getLS(LS.promo, null);
+  closePromoPopup(true, true);
+  if(promo && promo.ctaLink){
+    window.open(promo.ctaLink, '_blank');
+  } else {
+    document.getElementById('promoFixedWrap').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+let buyCtx = null;
+function openBuyModal(plat, cat, prod){
+  buyCtx = { plat, cat, prod, method:null };
+  document.getElementById('buyProdName').textContent = prod.name;
+  document.getElementById('buySummary').textContent = `${plat.name} · ${cat.name} · ID ${prod.id}`;
+  document.getElementById('payOptTransfer').classList.remove('active');
+  document.getElementById('payOptSaldo').classList.remove('active');
+  document.getElementById('buyTotalPrice').textContent = "—";
+  document.getElementById('confirmBuyBtn').disabled = true;
+  document.getElementById('surgeAnim').classList.remove('show');
+  document.getElementById('buyOverlay').classList.remove('hidden');
+}
+function closeBuyModal(){ document.getElementById('buyOverlay').classList.add('hidden'); buyCtx=null; }
+
+function selectPayMethod(method){
+  if(!buyCtx) return;
+  buyCtx.method = method;
+  document.getElementById('payOptTransfer').classList.toggle('active', method==='Transferencia');
+  document.getElementById('payOptSaldo').classList.toggle('active', method==='Saldo Móvil');
+  const price = method==='Transferencia' ? buyCtx.prod.priceTransfer : buyCtx.prod.priceSaldo;
+  document.getElementById('buyTotalPrice').textContent = fmtCUP(price);
+  document.getElementById('confirmBuyBtn').disabled = false;
+}
+
+function confirmPurchase(){
+  if(!buyCtx || !buyCtx.method) return;
+  const user = currentUser();
+  if(!user){ showFloatAlert("Sesión no válida, inicia sesión de nuevo."); showClientAuth(); return; }
+  const price = buyCtx.method==='Transferencia' ? buyCtx.prod.priceTransfer : buyCtx.prod.priceSaldo;
+  const order = {
+    id: uid("ORD"),
+    userId: user.id, userName:user.name, userPhone:user.phone, userEmail:user.email,
+    productId: buyCtx.prod.id, productName: buyCtx.prod.name,
+    platform: buyCtx.plat.name, category: buyCtx.cat.name,
+    method: buyCtx.method, total: price, date: nowStr()
+  };
+  const orders = getLS(LS.orders, []);
+  orders.unshift(order);
+  setLS(LS.orders, orders);
+
+  const lines = [
+    "⚡ Nuevo pedido — MaikolFollowers Pro",
+    "",
+    `Nombre: ${user.name}`,
+    `Teléfono: ${user.phone}`,
+    `Email: ${user.email}`,
+    `Producto: ${order.productName}`,
+    `Cantidad: 1`,
+    `ID del producto: ${order.productId}`,
+    `Método de pago: ${order.method}`,
+    `Precio total: ${fmtCUP(order.total)}`,
+    `Fecha y hora: ${order.date}`
+  ];
+  const msg = encodeURIComponent(lines.join("\n"));
+  const url = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+
+  document.getElementById('surgeAnim').classList.add('show');
+  document.getElementById('confirmBuyBtn').disabled = true;
+  setTimeout(()=>{
+    window.open(url, '_blank');
+    closeBuyModal();
+  }, 750);
+}
+
+let adminTab = 'general';
+
+function toggleAdminSide(){ document.getElementById('adminSide').classList.toggle('open'); }
+
+function setAdminTab(tab){
+  adminTab = tab;
+  document.querySelectorAll('.admin-nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  document.getElementById('adminSide').classList.remove('open');
+  const map = { general: renderAdminGeneral, catalogo: renderAdminCatalogo, plataformas: renderAdminPlataformas, marketing: renderAdminMarketing, pedidos: renderAdminPedidos, credenciales: renderAdminCredenciales };
+  (map[tab]||renderAdminGeneral)();
+}
+
+function fileToBase64(input, cb){
+  const f = input.files && input.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = ()=> cb(reader.result);
+  reader.readAsDataURL(f);
+}
+
+function renderAdminGeneral(){
+  const admin = getLS(LS.admin, {});
+  const c = document.getElementById('adminContent');
+  c.innerHTML = `
+    <h2>⚙ Configuración general</h2>
+    <div class="admin-card mirror">
+      <h3>Identidad del catálogo</h3>
+      <div class="row2">
+        <div class="field"><label>Nombre del catálogo</label><input id="genName" value="${admin.catalogName||''}"></div>
+        <div class="field">
+          <label>Foto de perfil</label>
+          <div class="file-drop" onclick="document.getElementById('genPhotoInput').click()">
+            <input type="file" id="genPhotoInput" accept="image/*">
+            📷 ${admin.photo ? 'Cambiar imagen' : 'Subir imagen'}
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        ${admin.photo ? `<img src="${admin.photo}" class="img-prev">` : ''}
+      </div>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="saveAdminGeneral()">Guardar cambios</button>
+    </div>
+  `;
+  document.getElementById('genPhotoInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingGenPhoto = b64; });
+  window.__pendingGenPhoto = admin.photo || "";
+}
+function saveAdminGeneral(){
+  const admin = getLS(LS.admin, {});
+  admin.catalogName = document.getElementById('genName').value.trim() || admin.catalogName;
+  if(window.__pendingGenPhoto) admin.photo = window.__pendingGenPhoto;
+  setLS(LS.admin, admin);
+  applyBranding();
+  showFloatAlert("Configuración guardada", "ok");
+  renderAdminGeneral();
+}
+
+function renderAdminCredenciales(){
+  const admin = getLS(LS.admin, {});
+  const c = document.getElementById('adminContent');
+  c.innerHTML = `
+    <h2>🔑 Credenciales de administrador</h2>
+    <div class="admin-card mirror">
+      <div class="row2">
+        <div class="field"><label>Usuario</label><input id="credUser" value="${admin.username||''}"></div>
+        <div class="field"><label>Nueva contraseña</label><input id="credPass" type="password" placeholder="Dejar en blanco para no cambiar"></div>
+      </div>
+      <button class="btn btn-primary" onclick="saveAdminCreds()">Actualizar credenciales</button>
+    </div>
+  `;
+}
+function saveAdminCreds(){
+  const admin = getLS(LS.admin, {});
+  const newUser = document.getElementById('credUser').value.trim();
+  const newPass = document.getElementById('credPass').value;
+  if(newUser) admin.username = newUser;
+  if(newPass) admin.password = newPass;
+  setLS(LS.admin, admin);
+  showFloatAlert("Credenciales actualizadas", "ok");
+  renderAdminCredenciales();
+}
+
+function renderAdminPlataformas(){
+  const platforms = getLS(LS.platforms, []);
+  const c = document.getElementById('adminContent');
+  let rows = platforms.map(p=>`
+    <tr>
+      <td>${p.icon||''} ${p.name}</td>
+      <td>${p.categories.length} categorías</td>
+      <td class="actions">
+        <button class="btn btn-ghost btn-sm" onclick="setAdminTab('catalogo');selectCatalogPlatform('${p.id}')">Ver catálogo</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePlatform('${p.id}')">Eliminar</button>
+      </td>
+    </tr>`).join('');
+  c.innerHTML = `
+    <h2>🌐 Plataformas</h2>
+    <div class="admin-card mirror">
+      <h3>Agregar nueva plataforma</h3>
+      <div class="row3">
+        <div class="field"><label>Nombre</label><input id="newPlatName" placeholder="Ej: TikTok"></div>
+        <div class="field"><label>Ícono / emoji</label><input id="newPlatIcon" placeholder="🎵"></div>
+        <div class="field" style="display:flex;align-items:flex-end;"><button class="btn btn-gold btn-block" onclick="addPlatform()">Agregar plataforma</button></div>
+      </div>
+    </div>
+    <div class="admin-card mirror">
+      <h3>Plataformas existentes</h3>
+      <table><thead><tr><th>Plataforma</th><th>Categorías</th><th>Acciones</th></tr></thead><tbody>${rows || '<tr><td colspan="3">Sin plataformas.</td></tr>'}</tbody></table>
+    </div>
+  `;
+}
+function addPlatform(){
+  const name = document.getElementById('newPlatName').value.trim();
+  const icon = document.getElementById('newPlatIcon').value.trim();
+  if(!name){ showFloatAlert("Escribe el nombre de la plataforma."); return; }
+  const platforms = getLS(LS.platforms, []);
+  platforms.push({ id: uid("PLT"), name, icon, categories: [] });
+  setLS(LS.platforms, platforms);
+  showFloatAlert("Plataforma agregada", "ok");
+  renderAdminPlataformas();
+}
+function deletePlatform(id){
+  if(!confirm("¿Eliminar esta plataforma y todo su catálogo?")) return;
+  let platforms = getLS(LS.platforms, []);
+  platforms = platforms.filter(p=>p.id!==id);
+  setLS(LS.platforms, platforms);
+  renderAdminPlataformas();
+}
+
+let catalogState = { platformId:null, catId:null };
+function selectCatalogPlatform(id){ catalogState.platformId = id; catalogState.catId=null; renderAdminCatalogo(); }
+
+function renderAdminCatalogo(){
+  const platforms = getLS(LS.platforms, []);
+  const c = document.getElementById('adminContent');
+  if(!platforms.length){
+    c.innerHTML = `<h2>📦 Catálogo</h2><div class="admin-card mirror">Primero crea una plataforma en la sección "Plataformas".</div>`;
+    return;
+  }
+  if(!catalogState.platformId || !platforms.some(p=>p.id===catalogState.platformId)) catalogState.platformId = platforms[0].id;
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+
+  const platChips = platforms.map(p=>`<button class="${p.id===catalogState.platformId?'active':''}" onclick="selectCatalogPlatform('${p.id}')">${p.icon||''} ${p.name}</button>`).join('');
+
+  c.innerHTML = `
+    <h2>📦 Gestión de catálogo</h2>
+    <div class="chip-select">${platChips}</div>
+
+    <div class="admin-card mirror">
+      <h3>Agregar categoría a ${plat.name}</h3>
+      <div class="row2">
+        <div class="field"><label>Nombre de categoría</label><input id="newCatName" placeholder="Ej: Comentarios"></div>
+        <div class="field" style="display:flex;align-items:flex-end;"><button class="btn btn-gold btn-block" onclick="addCategory()">Agregar categoría</button></div>
+      </div>
+    </div>
+
+    <div id="catalogCatsWrap"></div>
+  `;
+  renderCatalogCategories();
+}
+
+function renderCatalogCategories(){
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+  const wrap = document.getElementById('catalogCatsWrap');
+  if(!plat.categories.length){ wrap.innerHTML = '<div class="admin-card mirror">Sin categorías todavía.</div>'; return; }
+  wrap.innerHTML = plat.categories.map(cat=>`
+    <div class="admin-card mirror">
+      <h3 style="display:flex;justify-content:space-between;align-items:center;">
+        <span>${cat.name} <span style="color:var(--text-dim);font-weight:400;font-size:.8rem;">(${cat.products.length} productos)</span></span>
+        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">Eliminar categoría</button>
+      </h3>
+      <table>
+        <thead><tr><th>ID</th><th>Producto</th><th>Transferencia</th><th>Saldo Móvil</th><th>Img</th><th>Acciones</th></tr></thead>
+        <tbody>
+          ${cat.products.map(p=>`
+            <tr>
+              <td class="mono">${p.id}</td>
+              <td>${p.name}</td>
+              <td class="mono">${fmtCUP(p.priceTransfer)}</td>
+              <td class="mono">${fmtCUP(p.priceSaldo)}</td>
+              <td>${p.image ? `<img class="img-prev" src="${p.image}">` : '—'}</td>
+              <td class="actions">
+                <button class="btn btn-ghost btn-sm" onclick="editProduct('${cat.id}','${p.id}')">Editar</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${cat.id}','${p.id}')">Eliminar</button>
+              </td>
+            </tr>
+          `).join('') || `<tr><td colspan="6">Sin productos.</td></tr>`}
+        </tbody>
+      </table>
+      <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="openProductForm('${cat.id}')">+ Nuevo producto</button>
+      <div id="prodForm-${cat.id}"></div>
+    </div>
+  `).join('');
+}
+
+function addCategory(){
+  const name = document.getElementById('newCatName').value.trim();
+  if(!name){ showFloatAlert("Escribe el nombre de la categoría."); return; }
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+  plat.categories.push({ id: uid("CAT"), name, products: [] });
+  setLS(LS.platforms, platforms);
+  showFloatAlert("Categoría agregada", "ok");
+  renderAdminCatalogo();
+}
+function deleteCategory(catId){
+  if(!confirm("¿Eliminar esta categoría y sus productos?")) return;
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+  plat.categories = plat.categories.filter(c=>c.id!==catId);
+  setLS(LS.platforms, platforms);
+  renderAdminCatalogo();
+}
+
+function openProductForm(catId, editProdId){
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+  const cat = plat.categories.find(c=>c.id===catId);
+  const editing = editProdId ? cat.products.find(p=>p.id===editProdId) : null;
+  const box = document.getElementById('prodForm-'+catId);
+  box.innerHTML = `
+    <div class="admin-card" style="background:rgba(0,217,255,.04);margin-top:12px;">
+      <h3>${editing ? 'Editar producto' : 'Nuevo producto'}</h3>
+      <div class="row3">
+        <div class="field"><label>Nombre</label><input id="pfName" value="${editing?editing.name:''}"></div>
+        <div class="field"><label>Precio Transferencia (CUP)</label><input id="pfTransfer" type="number" value="${editing?editing.priceTransfer:''}"></div>
+        <div class="field"><label>Precio Saldo Móvil (CUP)</label><input id="pfSaldo" type="number" value="${editing?editing.priceSaldo:''}"></div>
+      </div>
+      <div class="field">
+        <label>Imagen del producto</label>
+        <div class="file-drop" onclick="document.getElementById('pfImgInput').click()">
+          <input type="file" id="pfImgInput" accept="image/*">📷 ${editing&&editing.image ? 'Cambiar imagen' : 'Subir imagen (opcional)'}
+        </div>
+        ${editing&&editing.image ? `<img src="${editing.image}" class="img-prev" style="margin-top:8px;">` : ''}
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary btn-sm" onclick="saveProduct('${catId}','${editProdId||''}')">Guardar producto</button>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('prodForm-${catId}').innerHTML=''">Cancelar</button>
+      </div>
+    </div>
+  `;
+  window.__pendingProdImg = editing ? (editing.image||"") : "";
+  document.getElementById('pfImgInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingProdImg = b64; });
+}
+function editProduct(catId, prodId){ openProductForm(catId, prodId); }
+
+function saveProduct(catId, prodId){
+  const name = document.getElementById('pfName').value.trim();
+  const transfer = parseFloat(document.getElementById('pfTransfer').value);
+  const saldo = parseFloat(document.getElementById('pfSaldo').value);
+  if(!name || isNaN(transfer) || isNaN(saldo)){ showFloatAlert("Completa nombre y ambos precios."); return; }
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+  const cat = plat.categories.find(c=>c.id===catId);
+  if(prodId){
+    const prod = cat.products.find(p=>p.id===prodId);
+    prod.name=name; prod.priceTransfer=transfer; prod.priceSaldo=saldo;
+    if(window.__pendingProdImg) prod.image = window.__pendingProdImg;
+  } else {
+    cat.products.push({ id: uid("PRD"), name, priceTransfer:transfer, priceSaldo:saldo, image: window.__pendingProdImg||"" });
+  }
+  setLS(LS.platforms, platforms);
+  showFloatAlert("Producto guardado", "ok");
+  renderAdminCatalogo();
+}
+function deleteProduct(catId, prodId){
+  if(!confirm("¿Eliminar este producto?")) return;
+  const platforms = getLS(LS.platforms, []);
+  const plat = platforms.find(p=>p.id===catalogState.platformId);
+  const cat = plat.categories.find(c=>c.id===catId);
+  cat.products = cat.products.filter(p=>p.id!==prodId);
+  setLS(LS.platforms, platforms);
+  renderAdminCatalogo();
+}
+
+function renderAdminMarketing(){
+  const promo = getLS(LS.promo, {});
+  const c = document.getElementById('adminContent');
+  c.innerHTML = `
+    <h2>📣 Marketing, rifas y anuncios</h2>
+    <div class="admin-card mirror">
+      <h3>Promoción / rifa activa</h3>
+      <div class="field"><label>Título</label><input id="mkTitle" value="${promo.title||''}"></div>
+      <div class="field"><label>Descripción</label><input id="mkDesc" value="${promo.desc||''}"></div>
+      <div class="row2">
+        <div class="field"><label>Texto del botón</label><input id="mkCtaText" value="${promo.ctaText||'Ver promoción'}"></div>
+        <div class="field"><label>Enlace del botón (opcional)</label><input id="mkCtaLink" value="${promo.ctaLink||''}" placeholder="https://..."></div>
+      </div>
+      <div class="field">
+        <label>Imagen de la promoción</label>
+        <div class="file-drop" onclick="document.getElementById('mkImgInput').click()">
+          <input type="file" id="mkImgInput" accept="image/*">📷 ${promo.image ? 'Cambiar imagen' : 'Subir imagen (opcional)'}
+        </div>
+        ${promo.image ? `<img src="${promo.image}" class="img-prev" style="margin-top:8px;">` : ''}
+      </div>
+      <div class="field">
+        <label>Estado</label>
+        <div class="chip-select">
+          <button id="mkActiveOn" class="${promo.active!==false?'active':''}" onclick="setPromoActive(true)">Activa</button>
+          <button id="mkActiveOff" class="${promo.active===false?'active':''}" onclick="setPromoActive(false)">Inactiva</button>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="savePromo()">Publicar promoción</button>
+      <p style="color:var(--text-dim);font-size:.75rem;margin-top:10px;">Se mostrará como pop-up al iniciar sesión (mín. 10s) y en la sección fija del catálogo.</p>
+    </div>
+  `;
+  window.__pendingPromoImg = promo.image || "";
+  window.__pendingPromoActive = promo.active !== false;
+  document.getElementById('mkImgInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingPromoImg = b64; });
+}
+function setPromoActive(val){
+  window.__pendingPromoActive = val;
+  document.getElementById('mkActiveOn').classList.toggle('active', val);
+  document.getElementById('mkActiveOff').classList.toggle('active', !val);
+}
+function savePromo(){
+  const promo = getLS(LS.promo, {});
+  promo.title = document.getElementById('mkTitle').value.trim() || promo.title;
+  promo.desc = document.getElementById('mkDesc').value.trim();
+  promo.ctaText = document.getElementById('mkCtaText').value.trim() || "Ver promoción";
+  promo.ctaLink = document.getElementById('mkCtaLink').value.trim();
+  promo.image = window.__pendingPromoImg || "";
+  promo.active = window.__pendingPromoActive !== false;
+  promo.createdAt = nowStr();
+  setLS(LS.promo, promo);
+  showFloatAlert("Promoción publicada y sincronizada con el catálogo", "ok");
+  renderAdminMarketing();
+}
+
+function renderAdminPedidos(){
+  const orders = getLS(LS.orders, []);
+  const c = document.getElementById('adminContent');
+  const rows = orders.map(o=>`
+    <tr>
+      <td class="mono">${o.id}</td>
+      <td>${o.userName}<br><span style="color:var(--text-dim);font-size:.72rem;">${o.userPhone}</span></td>
+      <td>${o.productName}<br><span style="color:var(--text-dim);font-size:.72rem;">${o.platform} · ${o.category}</span></td>
+      <td>${o.method}</td>
+      <td class="mono">${fmtCUP(o.total)}</td>
+      <td style="font-size:.75rem;color:var(--text-dim);">${o.date}</td>
+    </tr>
+  `).join('');
+  c.innerHTML = `
+    <h2>🧾 Pedidos recientes</h2>
+    <div class="admin-card mirror">
+      <table>
+        <thead><tr><th>ID</th><th>Cliente</th><th>Producto</th><th>Método</th><th>Total</th><th>Fecha</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="6">Aún no hay pedidos registrados.</td></tr>'}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function boot(){
+  const adminSess = getLS(LS.adminSession, null);
+  if(adminSess && adminSess.ok){ enterAdmin(); return; }
+  const sess = getLS(LS.session, null);
+  if(sess && currentUser()){ enterApp(); return; }
+  applyBranding();
+  showClientAuth();
+}
+boot();
+</script>
+</body>
+</html>
