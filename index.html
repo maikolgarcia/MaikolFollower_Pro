@@ -39,7 +39,7 @@ body{
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001s !important; transition-duration:.001s !important;}
 }
-h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
+h1,h2,h3,.brand,.stat-num{font-family:'Orbitron',sans-serif;}
 .mono{font-family:'JetBrains Mono',monospace;}
 .hidden{display:none !important;}
 ::selection{background:var(--blue);color:var(--void);}
@@ -49,12 +49,7 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 #boltLayer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .bolt-svg{position:absolute;opacity:0;filter:drop-shadow(0 0 12px var(--blue)) drop-shadow(0 0 24px var(--blue));}
 @keyframes boltFlash{
-  0%{opacity:0;}
-  4%{opacity:.9;}
-  7%{opacity:.15;}
-  10%{opacity:.7;}
-  14%{opacity:0;}
-  100%{opacity:0;}
+  0%{opacity:0;} 4%{opacity:.9;} 7%{opacity:.15;} 10%{opacity:.7;} 14%{opacity:0;} 100%{opacity:0;}
 }
 .bolt-flash{animation:boltFlash 5.5s ease-in-out infinite;}
 
@@ -70,23 +65,13 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
   overflow:hidden;
 }
 .mirror::before{
-  content:"";
-  position:absolute;
-  top:-60%;left:-60%;
-  width:60%;height:220%;
+  content:"";position:absolute;top:-60%;left:-60%;width:60%;height:220%;
   background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.10) 48%, rgba(0,217,255,.18) 52%, transparent 70%);
-  transform:translateX(-120%) rotate(8deg);
-  transition:transform .9s ease;
-  pointer-events:none;
+  transform:translateX(-120%) rotate(8deg);transition:transform .9s ease;pointer-events:none;
 }
 .mirror:hover::before{transform:translateX(220%) rotate(8deg);}
 
-.topbar{
-  position:sticky;top:0;z-index:40;
-  background:rgba(6,10,20,.75);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(6,10,20,.75);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1180px;margin:0 auto;}
 .brand{display:flex;align-items:center;gap:10px;font-size:1.05rem;letter-spacing:.5px;color:var(--text);}
 .brand-photo{width:38px;height:38px;border-radius:10px;object-fit:cover;border:1px solid var(--line);box-shadow:0 0 14px rgba(0,217,255,.35);background:var(--panel-2);}
@@ -95,10 +80,9 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 .user-chip{font-size:.8rem;color:var(--text-dim);padding:6px 12px;border:1px solid var(--line);border-radius:999px;}
 
 .btn{
-  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.5px;
-  font-size:.92rem;padding:10px 20px;border-radius:10px;border:1px solid transparent;
-  cursor:pointer;transition:transform .15s ease, box-shadow .2s ease, opacity .2s ease;
-  text-transform:uppercase;
+  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.5px;font-size:.92rem;
+  padding:10px 20px;border-radius:10px;border:1px solid transparent;cursor:pointer;
+  transition:transform .15s ease, box-shadow .2s ease, opacity .2s ease;text-transform:uppercase;
 }
 .btn:active{transform:scale(.97);}
 .btn-primary{background:linear-gradient(90deg,var(--blue),var(--blue-2));color:#00131a;box-shadow:0 0 18px rgba(0,217,255,.35);}
@@ -116,21 +100,11 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 .bolt-divider{display:flex;justify-content:center;margin:6px 0 26px;}
 .bolt-divider svg{width:120px;height:34px;}
 .bolt-divider path{
-  stroke:url(#boltGrad);
-  stroke-width:3;
-  fill:none;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  stroke-dasharray:140;
-  stroke-dashoffset:140;
-  animation:boltDraw 2.4s ease-in-out infinite;
+  stroke:url(#boltGrad);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:140;stroke-dashoffset:140;animation:boltDraw 2.4s ease-in-out infinite;
 }
 @keyframes boltDraw{
-  0%{stroke-dashoffset:140;}
-  35%{stroke-dashoffset:0;}
-  70%{stroke-dashoffset:0;opacity:1;}
-  85%{opacity:.3;}
-  100%{stroke-dashoffset:0;opacity:1;}
+  0%{stroke-dashoffset:140;} 35%{stroke-dashoffset:0;} 70%{stroke-dashoffset:0;opacity:1;} 85%{opacity:.3;} 100%{stroke-dashoffset:0;opacity:1;}
 }
 
 .auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;}
@@ -142,66 +116,86 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 .tabs-switch button.active{background:linear-gradient(90deg,var(--blue),var(--blue-2));color:#00131a;}
 .field{margin-bottom:14px;}
 .field label{display:block;font-size:.75rem;color:var(--text-dim);margin-bottom:6px;letter-spacing:.4px;text-transform:uppercase;}
-.field input{
-  width:100%;padding:11px 13px;background:rgba(255,255,255,.03);
-  border:1px solid var(--line);border-radius:9px;color:var(--text);font-size:.92rem;
-  transition:border-color .2s, box-shadow .2s;
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 13px;background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:9px;color:var(--text);font-size:.92rem;font-family:inherit;transition:border-color .2s, box-shadow .2s;
 }
-.field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,217,255,.15);}
+.field textarea{resize:vertical;min-height:70px;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,217,255,.15);}
 .auth-foot{margin-top:16px;text-align:center;font-size:.8rem;color:var(--text-dim);}
 .auth-foot a{color:var(--blue-2);cursor:pointer;text-decoration:underline;}
 
 #floatAlert{
-  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-140%);
-  z-index:200;padding:14px 22px;border-radius:12px;
-  background:rgba(20,10,15,.92);border:1px solid rgba(255,77,109,.5);
-  color:#ffd7de;font-family:'Rajdhani',sans-serif;font-weight:600;
-  box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 20px rgba(255,77,109,.25);
-  transition:transform .35s cubic-bezier(.2,.9,.3,1.3);
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-140%);z-index:200;padding:14px 22px;border-radius:12px;
+  background:rgba(20,10,15,.92);border:1px solid rgba(255,77,109,.5);color:#ffd7de;font-family:'Rajdhani',sans-serif;font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 20px rgba(255,77,109,.25);transition:transform .35s cubic-bezier(.2,.9,.3,1.3);
   max-width:90vw;text-align:center;
 }
 #floatAlert.show{transform:translateX(-50%) translateY(0);}
 #floatAlert.ok{border-color:rgba(56,230,160,.5);color:#c9ffe9;box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 20px rgba(56,230,160,.25);}
 
-.promo-fixed{margin:18px 0;padding:16px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;}
-.promo-fixed img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--line);}
-.promo-fixed .pf-text{flex:1;min-width:0;}
-.promo-fixed .pf-tag{font-size:.68rem;letter-spacing:1px;color:var(--gold);text-transform:uppercase;font-weight:700;}
-.promo-fixed .pf-title{font-size:.98rem;font-weight:700;margin-top:2px;}
-.promo-fixed .pf-desc{font-size:.8rem;color:var(--text-dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* ---- Anuncios fijos (Rifa / Promos) ---- */
+.announce-fixed{margin:14px 0;padding:16px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;}
+.announce-fixed img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--line);}
+.announce-fixed .af-icon{font-size:1.6rem;width:56px;height:56px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.announce-fixed .af-text{flex:1;min-width:0;}
+.announce-fixed .af-tag{font-size:.68rem;letter-spacing:1px;color:var(--gold);text-transform:uppercase;font-weight:700;}
+.announce-fixed .af-title{font-size:.98rem;font-weight:700;margin-top:2px;}
+.announce-fixed .af-desc{font-size:.8rem;color:var(--text-dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.announce-fixed .af-mini-count{font-size:.72rem;color:var(--blue-2);margin-top:4px;font-family:'JetBrains Mono',monospace;}
 
-#promoOverlay{
-  position:fixed;inset:0;z-index:150;background:rgba(2,4,10,.72);
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  backdrop-filter:blur(4px);
+.promos-row{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 18px;}
+.promo-teaser{min-width:220px;padding:14px;cursor:pointer;flex-shrink:0;}
+.promo-teaser .pt-type{font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.promo-teaser .pt-title{font-weight:700;font-size:.95rem;margin:6px 0 4px;font-family:'Rajdhani',sans-serif;}
+.promo-teaser .pt-sub{font-size:.78rem;color:var(--text-dim);}
+.promo-teaser .pt-price b{color:var(--gold-2);font-family:'JetBrains Mono',monospace;}
+.promo-teaser .pt-price s{color:var(--text-dim);margin-right:6px;}
+
+.active-promo-ribbon{
+  display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap;
+  background:linear-gradient(90deg, rgba(255,204,51,.12), rgba(0,217,255,.1));
+  border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin:14px 0;font-size:.82rem;
 }
-.promo-modal{width:100%;max-width:420px;padding:0;position:relative;}
-.promo-modal .pm-close{
-  position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;
-  background:rgba(0,0,0,.5);border:1px solid var(--line);color:var(--text);
-  font-size:1rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;
+.active-promo-ribbon b{color:var(--gold-2);}
+.active-promo-ribbon button{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:.75rem;text-decoration:underline;}
+
+/* ---- Overlays genéricos ---- */
+.ov{position:fixed;inset:0;z-index:150;background:rgba(2,4,10,.72);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.ov-modal{width:100%;max-width:440px;padding:0;position:relative;}
+.ov-modal .ov-close{
+  position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.5);
+  border:1px solid var(--line);color:var(--text);font-size:1rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;
 }
-.promo-modal .pm-img{width:100%;height:190px;object-fit:cover;display:block;}
-.promo-modal .pm-body{padding:20px;}
-.promo-modal .pm-tag{color:var(--gold);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
-.promo-modal .pm-title{font-size:1.25rem;margin:6px 0 8px;}
-.promo-modal .pm-desc{color:var(--text-dim);font-size:.88rem;line-height:1.5;margin-bottom:16px;}
-.pm-timer{font-size:.7rem;color:var(--text-dim);text-align:center;margin-top:10px;}
+.ov-modal .ov-img{width:100%;height:180px;object-fit:cover;display:block;}
+.ov-modal .ov-body{padding:20px;}
+.ov-modal .ov-tag{color:var(--gold);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+.ov-modal .ov-title{font-size:1.2rem;margin:6px 0 8px;}
+.ov-modal .ov-desc{color:var(--text-dim);font-size:.87rem;line-height:1.5;margin-bottom:14px;}
+.ov-timer{font-size:.7rem;color:var(--text-dim);text-align:center;margin-top:10px;}
+
+.price-compare{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;}
+.price-compare s{color:var(--text-dim);font-size:1rem;font-family:'JetBrains Mono',monospace;}
+.price-compare b{color:var(--gold-2);font-size:1.5rem;font-family:'JetBrains Mono',monospace;}
+.price-badge{display:inline-block;background:rgba(56,230,160,.15);color:var(--ok);padding:3px 10px;border-radius:999px;font-size:.68rem;font-weight:700;}
+.combo-list{list-style:none;margin:10px 0;}
+.combo-list li{padding:6px 0;border-bottom:1px dashed var(--line);font-size:.85rem;display:flex;justify-content:space-between;}
+.gift-box{display:flex;gap:12px;align-items:flex-start;background:rgba(255,204,51,.06);border:1px solid rgba(255,204,51,.25);border-radius:12px;padding:12px;margin-bottom:14px;}
+.gift-box .gi{font-size:1.4rem;}
 
 .hero{padding:36px 0 6px;text-align:center;}
 .hero h1{font-size:1.7rem;letter-spacing:.5px;}
 .hero p{color:var(--text-dim);font-size:.88rem;margin-top:8px;}
 .platform-tabs{display:flex;gap:10px;overflow-x:auto;padding:6px 0 20px;}
 .platform-tabs button{
-  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.4px;white-space:nowrap;
-  padding:10px 18px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.02);
-  color:var(--text-dim);cursor:pointer;transition:all .2s;
+  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.4px;white-space:nowrap;padding:10px 18px;border-radius:10px;
+  border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--text-dim);cursor:pointer;transition:all .2s;
 }
 .platform-tabs button.active{color:#00131a;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-color:transparent;box-shadow:0 0 16px rgba(255,204,51,.3);}
 .cat-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
 .cat-tabs button{
-  font-family:'Rajdhani',sans-serif;font-weight:600;padding:8px 16px;border-radius:999px;
-  border:1px solid var(--line);background:transparent;color:var(--text-dim);cursor:pointer;transition:all .2s;
+  font-family:'Rajdhani',sans-serif;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line);
+  background:transparent;color:var(--text-dim);cursor:pointer;transition:all .2s;
 }
 .cat-tabs button.active{border-color:var(--blue);color:var(--blue-2);background:rgba(0,217,255,.08);}
 
@@ -218,12 +212,12 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 #buyOverlay{position:fixed;inset:0;z-index:160;background:rgba(2,4,10,.72);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
 .buy-modal{width:100%;max-width:440px;padding:24px;position:relative;}
 .buy-modal h3{font-size:1.15rem;margin-bottom:4px;}
-.buy-summary{font-size:.85rem;color:var(--text-dim);margin-bottom:18px;}
+.buy-summary{font-size:.85rem;color:var(--text-dim);margin-bottom:10px;}
+.buy-promo-tag{font-size:.76rem;color:var(--gold-2);background:rgba(255,204,51,.08);border:1px solid rgba(255,204,51,.25);border-radius:8px;padding:6px 10px;margin-bottom:14px;}
 .pay-options{display:flex;gap:10px;margin-bottom:18px;}
 .pay-opt{
-  flex:1;padding:14px 10px;border-radius:12px;border:1px solid var(--line);cursor:pointer;
-  text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--text-dim);
-  background:rgba(255,255,255,.02);transition:all .2s;
+  flex:1;padding:14px 10px;border-radius:12px;border:1px solid var(--line);cursor:pointer;text-align:center;
+  font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--text-dim);background:rgba(255,255,255,.02);transition:all .2s;
 }
 .pay-opt.active{border-color:var(--blue);color:var(--blue-2);background:rgba(0,217,255,.08);box-shadow:0 0 14px rgba(0,217,255,.2);}
 .pay-opt small{display:block;font-weight:500;font-size:.68rem;color:var(--text-dim);margin-top:3px;}
@@ -237,13 +231,49 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 .surge path{stroke:url(#boltGrad);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:160;stroke-dashoffset:160;animation:surgeDraw .7s ease forwards;}
 @keyframes surgeDraw{to{stroke-dashoffset:0;}}
 
+/* ---- Panel de Rifa (cliente) ---- */
+#rifaScreen .rf-head{padding:26px 0 4px;text-align:center;}
+#rifaScreen .rf-head h1{font-size:1.5rem;}
+#rifaScreen .rf-head p{color:var(--text-dim);font-size:.85rem;margin-top:6px;}
+.countdown-box{display:flex;gap:10px;justify-content:center;margin:20px 0;flex-wrap:wrap;}
+.countdown-box .cbox{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:10px 16px;text-align:center;min-width:64px;}
+.countdown-box .cbox b{display:block;font-family:'JetBrains Mono',monospace;font-size:1.35rem;color:var(--gold-2);}
+.countdown-box .cbox span{font-size:.63rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
+.calendar-chip{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);font-family:'Rajdhani',sans-serif;font-weight:700;margin:0 auto 18px;justify-content:center;}
+.rifa-status{max-width:520px;margin:0 auto 22px;padding:18px;text-align:center;}
+.rifa-mynum{font-family:'JetBrains Mono',monospace;font-size:2rem;color:var(--gold-2);margin:6px 0;}
+.rifa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;max-width:900px;margin:0 auto 50px;}
+.rifa-num{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;
+  cursor:pointer;transition:all .15s;color:var(--text-dim);font-size:.85rem;}
+.rifa-num:hover{border-color:var(--blue);color:var(--blue-2);}
+.rifa-num.taken{background:rgba(255,255,255,.02);color:rgba(142,160,196,.3);cursor:not-allowed;border-color:transparent;}
+.rifa-num.mine{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#241900;border-color:transparent;box-shadow:0 0 16px rgba(255,204,51,.4);cursor:default;}
+.rifa-num.winner{background:linear-gradient(135deg,var(--blue),var(--gold));color:#001018;box-shadow:0 0 24px rgba(0,217,255,.6);}
+.wheel-wrap{display:flex;flex-direction:column;align-items:center;margin:20px 0 40px;}
+.wheel-pointer{width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:18px solid var(--gold);margin-bottom:-2px;z-index:2;filter:drop-shadow(0 0 6px rgba(255,204,51,.6));}
+.wheel{width:240px;height:240px;border-radius:50%;position:relative;border:6px solid var(--line);overflow:hidden;transition:transform 4s cubic-bezier(.15,.85,.25,1);box-shadow:0 0 40px rgba(0,217,255,.25);}
+.wheel-label{position:absolute;top:50%;left:50%;width:50%;height:2px;transform-origin:0 0;font-size:.62rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:#001018;}
+.wheel-label span{display:inline-block;transform:translateX(14px) translateY(-6px);}
+.winner-banner{text-align:center;padding:16px;margin:0 auto 20px;max-width:420px;}
+.winner-banner .wb-num{font-size:2.2rem;font-family:'JetBrains Mono',monospace;color:var(--gold-2);}
+
+/* ---- Toggle switch ---- */
+.toggle-switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;}
+.toggle-switch input{display:none;}
+.toggle-track{width:46px;height:26px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);position:relative;transition:all .2s;flex-shrink:0;}
+.toggle-track::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--text-dim);transition:all .2s;}
+.toggle-switch input:checked + .toggle-track{background:linear-gradient(90deg,var(--blue),var(--blue-2));border-color:transparent;}
+.toggle-switch input:checked + .toggle-track::after{transform:translateX(20px);background:#00131a;}
+.toggle-label{font-family:'Rajdhani',sans-serif;font-weight:700;}
+
+/* ---- Admin ---- */
 .admin-shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
 .admin-side{background:rgba(6,10,20,.6);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px;}
 .admin-side .brand{margin-bottom:18px;padding:0 6px;}
 .admin-nav-btn{
-  text-align:left;background:transparent;border:1px solid transparent;color:var(--text-dim);
-  padding:10px 12px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;
-  cursor:pointer;transition:all .2s;letter-spacing:.3px;
+  text-align:left;background:transparent;border:1px solid transparent;color:var(--text-dim);padding:10px 12px;border-radius:9px;
+  font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .2s;letter-spacing:.3px;
 }
 .admin-nav-btn.active{background:rgba(0,217,255,.08);border-color:var(--line);color:var(--blue-2);}
 .admin-nav-btn:hover{color:var(--text);}
@@ -257,10 +287,11 @@ h1,h2,h3,.brand,.tab-btn,.stat-num{font-family:'Orbitron',sans-serif;}
 table{width:100%;border-collapse:collapse;font-size:.85rem;}
 th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);}
 th{color:var(--text-dim);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;}
-td.actions{display:flex;gap:6px;}
+td.actions{display:flex;gap:6px;flex-wrap:wrap;}
 .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.68rem;font-weight:700;letter-spacing:.4px;}
 .pill.on{background:rgba(56,230,160,.15);color:var(--ok);}
 .pill.off{background:rgba(255,255,255,.06);color:var(--text-dim);}
+.pill.type{background:rgba(0,217,255,.12);color:var(--blue-2);}
 .img-prev{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--line);}
 .file-drop{border:1px dashed var(--line);border-radius:10px;padding:10px;font-size:.78rem;color:var(--text-dim);cursor:pointer;text-align:center;}
 .file-drop input{display:none;}
@@ -275,6 +306,7 @@ td.actions{display:flex;gap:6px;}
 .chip-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
 .chip-select button{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text-dim);font-size:.8rem;cursor:pointer;}
 .chip-select button.active{background:var(--blue);color:#00131a;border-color:transparent;font-weight:700;}
+.link-copy{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
 </style>
 </head>
 <body>
@@ -289,6 +321,7 @@ td.actions{display:flex;gap:6px;}
 <div id="boltLayer"></div>
 <div id="floatAlert"></div>
 
+<!-- ============ AUTH CLIENTE ============ -->
 <section id="authScreen" class="screen auth-screen hidden">
   <div class="auth-box mirror">
     <div class="auth-title">⚡ MaikolFollowers <span style="color:var(--gold)">Pro</span></div>
@@ -297,13 +330,11 @@ td.actions{display:flex;gap:6px;}
       <button id="tabLoginBtn" class="active" onclick="setAuthTab('login')">Iniciar sesión</button>
       <button id="tabRegisterBtn" onclick="setAuthTab('register')">Registrarme</button>
     </div>
-
     <form id="loginForm" onsubmit="return handleLogin(event)">
       <div class="field"><label>Correo electrónico</label><input type="email" id="loginEmail" required></div>
       <div class="field"><label>Contraseña</label><input type="password" id="loginPass" required></div>
       <button type="submit" class="btn btn-primary btn-block">Entrar</button>
     </form>
-
     <form id="registerForm" class="hidden" onsubmit="return handleRegister(event)">
       <div class="field"><label>Nombre completo</label><input type="text" id="regName" required></div>
       <div class="field"><label>Teléfono</label><input type="tel" id="regPhone" required></div>
@@ -311,11 +342,11 @@ td.actions{display:flex;gap:6px;}
       <div class="field"><label>Contraseña</label><input type="password" id="regPass" required minlength="4"></div>
       <button type="submit" class="btn btn-gold btn-block">Crear cuenta</button>
     </form>
-
     <div class="auth-foot">¿Eres administrador? <a onclick="showAdminLogin()">Acceso privado</a></div>
   </div>
 </section>
 
+<!-- ============ AUTH ADMIN ============ -->
 <section id="adminAuthScreen" class="screen auth-screen hidden">
   <div class="auth-box mirror">
     <div class="auth-title">🔒 Panel Administrativo</div>
@@ -329,6 +360,7 @@ td.actions{display:flex;gap:6px;}
   </div>
 </section>
 
+<!-- ============ APP CLIENTE (catálogo) ============ -->
 <section id="appScreen" class="screen hidden">
   <div class="topbar">
     <div class="topbar-inner">
@@ -339,7 +371,6 @@ td.actions{display:flex;gap:6px;}
       </div>
     </div>
   </div>
-
   <div class="wrap">
     <div class="hero">
       <h1>Impulsa tus redes sociales <span style="color:var(--gold)">al instante</span></h1>
@@ -347,7 +378,9 @@ td.actions{display:flex;gap:6px;}
     </div>
     <div class="bolt-divider"><svg viewBox="0 0 60 30"><path d="M32 2 L14 17 L24 17 L18 28 L46 12 L34 12 Z"/></svg></div>
 
-    <div id="promoFixedWrap"></div>
+    <div id="activePromoRibbonWrap"></div>
+    <div id="rifaFixedWrap"></div>
+    <div id="promosFixedWrap"></div>
 
     <div class="platform-tabs" id="platformTabs"></div>
     <div class="cat-tabs" id="catTabs"></div>
@@ -355,33 +388,87 @@ td.actions{display:flex;gap:6px;}
   </div>
 </section>
 
-<div id="promoOverlay" class="hidden">
-  <div class="promo-modal mirror">
-    <button class="pm-close" onclick="closePromoPopup(true)">✕</button>
-    <img class="pm-img" id="promoPopupImg" src="" alt="">
-    <div class="pm-body">
-      <div class="pm-tag">⚡ Promoción activa</div>
-      <div class="pm-title" id="promoPopupTitle"></div>
-      <div class="pm-desc" id="promoPopupDesc"></div>
-      <button class="btn btn-gold btn-block" id="promoPopupCta" onclick="promoCtaClick()">Ver promoción</button>
-      <div class="pm-timer" id="promoTimerText">Puedes cerrar en 10s...</div>
+<!-- ============ PANEL DEDICADO DE RIFA (cliente) ============ -->
+<section id="rifaScreen" class="screen hidden">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <button class="btn btn-ghost btn-sm" onclick="closeRifaScreen()">← Volver al catálogo</button>
+      <span class="user-chip" id="rifaUserChip"></span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="rf-head">
+      <h1 id="rifaTitle">⚡ Rifa MaikolFollowers</h1>
+      <p id="rifaDesc"></p>
+    </div>
+    <div id="rifaCalendarWrap" style="display:flex;justify-content:center;"></div>
+    <div class="countdown-box" id="rifaCountdown"></div>
+    <div id="rifaStatusWrap"></div>
+    <div id="rifaWheelWrap"></div>
+    <div id="rifaGridWrap"></div>
+  </div>
+</section>
+
+<!-- ============ Popup Rifa ============ -->
+<div id="rifaOverlay" class="ov hidden">
+  <div class="ov-modal mirror">
+    <button class="ov-close" onclick="closeRifaPopup(true)">✕</button>
+    <img class="ov-img" id="rifaPopupImg" src="" alt="" style="display:none;">
+    <div class="ov-body">
+      <div class="ov-tag">🎟 Rifa activa</div>
+      <div class="ov-title" id="rifaPopupTitle"></div>
+      <div class="ov-desc" id="rifaPopupDesc"></div>
+      <button class="btn btn-gold btn-block" onclick="rifaPopupParticipar()">Participar en la rifa</button>
+      <div class="ov-timer" id="rifaPopupTimer">Puedes cerrar en 10s...</div>
     </div>
   </div>
 </div>
 
-<div id="buyOverlay" class="hidden">
+<!-- ============ Popup Promoción (teaser) ============ -->
+<div id="promoPopupOverlay" class="ov hidden">
+  <div class="ov-modal mirror">
+    <button class="ov-close" onclick="closePromoPopupTeaser(true)">✕</button>
+    <img class="ov-img" id="promoPopupImg" src="" alt="" style="display:none;">
+    <div class="ov-body">
+      <div class="ov-tag" id="promoPopupTag">🔥 Promoción activa</div>
+      <div class="ov-title" id="promoPopupTitle"></div>
+      <div class="ov-desc" id="promoPopupDesc"></div>
+      <button class="btn btn-gold btn-block" onclick="promoPopupVer()">Ver promoción</button>
+      <div class="ov-timer" id="promoPopupTimer">Puedes cerrar en 10s...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal detalle de promoción ============ -->
+<div id="promoDetailOverlay" class="ov hidden">
+  <div class="ov-modal mirror">
+    <button class="ov-close" onclick="closePromoDetail()">✕</button>
+    <img class="ov-img" id="pdImg" src="" alt="" style="display:none;">
+    <div class="ov-body">
+      <div class="ov-tag" id="pdTag"></div>
+      <div class="ov-title" id="pdTitle"></div>
+      <div class="ov-desc" id="pdDesc"></div>
+      <div id="pdTypeBody"></div>
+      <div class="link-copy">
+        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" id="pdLink"></span>
+        <button class="btn btn-ghost btn-sm" onclick="copyPromoLink()">Copiar enlace</button>
+      </div>
+      <button class="btn btn-primary btn-block" style="margin-top:14px;" onclick="usePromoNow()">Usar esta promoción</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal de compra ============ -->
+<div id="buyOverlay" class="ov hidden">
   <div class="buy-modal mirror">
     <button class="modal-close-x" onclick="closeBuyModal()">✕</button>
     <h3 id="buyProdName"></h3>
     <div class="buy-summary" id="buySummary"></div>
+    <div id="buyPromoTagWrap"></div>
 
     <div class="pay-options">
-      <div class="pay-opt" id="payOptTransfer" onclick="selectPayMethod('Transferencia')">
-        Transferencia<small>Bancaria</small>
-      </div>
-      <div class="pay-opt" id="payOptSaldo" onclick="selectPayMethod('Saldo Móvil')">
-        Saldo Móvil<small>Recarga directa</small>
-      </div>
+      <div class="pay-opt" id="payOptTransfer" onclick="selectPayMethod('Transferencia')">Transferencia<small>Bancaria</small></div>
+      <div class="pay-opt" id="payOptSaldo" onclick="selectPayMethod('Saldo Móvil')">Saldo Móvil<small>Recarga directa</small></div>
     </div>
 
     <div class="buy-total">
@@ -398,6 +485,7 @@ td.actions{display:flex;gap:6px;}
   </div>
 </div>
 
+<!-- ============ ADMIN ============ -->
 <section id="adminScreen" class="screen hidden">
   <div class="admin-shell">
     <aside class="admin-side" id="adminSide">
@@ -405,7 +493,8 @@ td.actions{display:flex;gap:6px;}
       <button class="admin-nav-btn active" data-tab="general" onclick="setAdminTab('general')">⚙ General</button>
       <button class="admin-nav-btn" data-tab="catalogo" onclick="setAdminTab('catalogo')">📦 Catálogo</button>
       <button class="admin-nav-btn" data-tab="plataformas" onclick="setAdminTab('plataformas')">🌐 Plataformas</button>
-      <button class="admin-nav-btn" data-tab="marketing" onclick="setAdminTab('marketing')">📣 Marketing</button>
+      <button class="admin-nav-btn" data-tab="rifa" onclick="setAdminTab('rifa')">🎟 Anuncio / Rifa</button>
+      <button class="admin-nav-btn" data-tab="promos" onclick="setAdminTab('promos')">🔥 Anuncio / Promociones</button>
       <button class="admin-nav-btn" data-tab="pedidos" onclick="setAdminTab('pedidos')">🧾 Pedidos</button>
       <button class="admin-nav-btn" data-tab="credenciales" onclick="setAdminTab('credenciales')">🔑 Credenciales</button>
       <div style="flex:1;"></div>
@@ -422,104 +511,95 @@ td.actions{display:flex;gap:6px;}
 </section>
 
 <script>
+/* =========================================================
+   MaikolFollowers Pro — localStorage app
+   ========================================================= */
 const WA_NUMBER = "5353215857";
 const LS = {
   users:"mfp_users", session:"mfp_session", admin:"mfp_admin", adminSession:"mfp_admin_session",
-  platforms:"mfp_platforms", promo:"mfp_promo", orders:"mfp_orders"
+  platforms:"mfp_platforms", orders:"mfp_orders",
+  rifa:"mfp_rifa", rifaEntries:"mfp_rifa_entries",
+  promos:"mfp_promos", activePromoCode:"mfp_active_promo_code"
 };
 
 function getLS(key, fallback){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
 function setLS(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
 function uid(prefix){ return prefix + "-" + Math.random().toString(36).slice(2,7).toUpperCase(); }
 function fmtCUP(n){ return "$" + Number(n).toLocaleString("es-CU") + " CUP"; }
-function nowStr(){
-  const d = new Date();
-  return d.toLocaleDateString("es-CU") + " " + d.toLocaleTimeString("es-CU", {hour:'2-digit', minute:'2-digit'});
-}
+function nowStr(){ const d = new Date(); return d.toLocaleDateString("es-CU") + " " + d.toLocaleTimeString("es-CU", {hour:'2-digit', minute:'2-digit'}); }
+function escapeHtml(s){ return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
+/* ---------- Datos iniciales ---------- */
 function defaultInstagramCategories(){
-  const seguidores = [
-    [1000,1200],[2000,2400],[3000,3600],[4000,4800],[5000,6000],
-    [10000,11500],[20000,22500],[30000,33000],[40000,44000],[50000,54000],
-    [100000,105000],[200000,205000],[300000,300000]
-  ];
-  const likes = [
-    [1000,400],[2000,800],[3000,1200],[4000,1600],[5000,1950],
-    [10000,3800],[20000,7400],[30000,11000],[40000,14500],[50000,18000],
-    [100000,35000],[200000,68000],[300000,100000]
-  ];
-  const vistas = [
-    [1000,350],[2000,700],[3000,1050],[4000,1400],[5000,1700],
-    [10000,3300],[20000,6400],[30000,9500],[40000,12500],[50000,15500],
-    [100000,30000],[200000,58000],[300000,25500]
-  ];
+  const seguidores=[[1000,1200],[2000,2400],[3000,3600],[4000,4800],[5000,6000],[10000,11500],[20000,22500],[30000,33000],[40000,44000],[50000,54000],[100000,105000],[200000,205000],[300000,300000]];
+  const likes=[[1000,400],[2000,800],[3000,1200],[4000,1600],[5000,1950],[10000,3800],[20000,7400],[30000,11000],[40000,14500],[50000,18000],[100000,35000],[200000,68000],[300000,100000]];
+  const vistas=[[1000,350],[2000,700],[3000,1050],[4000,1400],[5000,1700],[10000,3300],[20000,6400],[30000,9500],[40000,12500],[50000,15500],[100000,30000],[200000,58000],[300000,25500]];
   const mk = (label, arr) => ({
     id: uid("CAT"), name: label,
     products: arr.map(([qty, transfer]) => ({
-      id: uid("PRD"),
-      name: qty.toLocaleString("es-CU") + " " + label.toLowerCase(),
-      qty: qty,
-      priceTransfer: transfer,
-      priceSaldo: Math.round(transfer * 1.06),
-      image: ""
+      id: uid("PRD"), name: qty.toLocaleString("es-CU") + " " + label.toLowerCase(),
+      qty, priceTransfer: transfer, priceSaldo: Math.round(transfer * 1.06), image: ""
     }))
   });
   return [ mk("Seguidores", seguidores), mk("Likes", likes), mk("Vistas", vistas) ];
 }
 
+function defaultDrawDate(){
+  const d = new Date(); d.setDate(d.getDate()+7); return d.toISOString().slice(0,16);
+}
+
 function initData(){
   if(!localStorage.getItem(LS.platforms)){
-    setLS(LS.platforms, [
-      { id: uid("PLT"), name:"Instagram", icon:"📸", categories: defaultInstagramCategories() }
-    ]);
+    setLS(LS.platforms, [{ id: uid("PLT"), name:"Instagram", icon:"📸", categories: defaultInstagramCategories() }]);
   }
   if(!localStorage.getItem(LS.admin)){
     setLS(LS.admin, { username:"admin", password:"admin123", catalogName:"MaikolFollowers Pro", photo:"" });
   }
   if(!localStorage.getItem(LS.users)) setLS(LS.users, []);
   if(!localStorage.getItem(LS.orders)) setLS(LS.orders, []);
-  if(!localStorage.getItem(LS.promo)){
-    setLS(LS.promo, {
-      title:"¡Rifa de 10,000 seguidores gratis!",
-      desc:"Compra cualquier paquete esta semana y participa automáticamente en la rifa mensual. Ganador anunciado cada viernes.",
-      image:"",
-      ctaText:"Ver promoción",
-      ctaLink:"",
-      active:true,
-      createdAt: nowStr()
+  if(!localStorage.getItem(LS.rifa)){
+    setLS(LS.rifa, {
+      active:true, title:"¡Rifa de 10,000 seguidores gratis!",
+      desc:"Elige tu número de la suerte y participa automáticamente. El sorteo se realiza en la fecha indicada mediante ruleta en vivo.",
+      image:"", totalNumbers:50, drawDate: defaultDrawDate(), drawn:false, winnerNumber:null, winnerEntry:null
     });
+  }
+  if(!localStorage.getItem(LS.rifaEntries)) setLS(LS.rifaEntries, []);
+  if(!localStorage.getItem(LS.promos)){
+    setLS(LS.promos, [{
+      id: uid("PRM"), code: uid("REF"), type:"percent", active:true, createdAt: nowStr(),
+      title:"10% de descuento en tu primer pedido", desc:"Aplica en cualquier paquete de seguidores.",
+      image:"", percentValue:10, percentBase:5000
+    }]);
   }
 }
 initData();
 
+/* ---------- Rayos decorativos de fondo ---------- */
 function spawnBolts(){
-  const layer = document.getElementById('boltLayer');
-  layer.innerHTML = "";
+  const layer = document.getElementById('boltLayer'); layer.innerHTML = "";
   const positions = [ [8,'-2%','6%'], [70,'4%','65%'], [40,'50%','30%'] ];
   positions.forEach((p,i)=>{
     const s = document.createElementNS("http://www.w3.org/2000/svg","svg");
-    s.setAttribute("viewBox","0 0 60 140");
-    s.setAttribute("class","bolt-svg bolt-flash");
-    s.style.width = "60px"; s.style.height="140px";
-    s.style.top = p[1]; s.style.left = p[2];
-    s.style.animationDelay = (i*1.8)+"s";
-    s.innerHTML = '<path d="M34 0 L10 70 L26 70 L14 140 L52 55 L32 55 Z" fill="url(#boltGrad)" opacity="0.55"/>';
+    s.setAttribute("viewBox","0 0 60 140"); s.setAttribute("class","bolt-svg bolt-flash");
+    s.style.width="60px"; s.style.height="140px"; s.style.top=p[1]; s.style.left=p[2]; s.style.animationDelay=(i*1.8)+"s";
+    s.innerHTML='<path d="M34 0 L10 70 L26 70 L14 140 L52 55 L32 55 Z" fill="url(#boltGrad)" opacity="0.55"/>';
     layer.appendChild(s);
   });
 }
 spawnBolts();
 
+/* ---------- Alerta flotante ---------- */
 let alertTimer=null;
 function showFloatAlert(msg, type){
   const el = document.getElementById('floatAlert');
-  el.textContent = msg;
-  el.className = type==='ok' ? 'show ok' : 'show';
-  clearTimeout(alertTimer);
-  alertTimer = setTimeout(()=>{ el.classList.remove('show'); }, 3600);
+  el.textContent = msg; el.className = type==='ok' ? 'show ok' : 'show';
+  clearTimeout(alertTimer); alertTimer = setTimeout(()=>{ el.classList.remove('show'); }, 3600);
 }
 
+/* ---------- Navegación de pantallas ---------- */
 function showScreen(id){
-  ['authScreen','adminAuthScreen','appScreen','adminScreen'].forEach(s=>{
+  ['authScreen','adminAuthScreen','appScreen','adminScreen','rifaScreen'].forEach(s=>{
     document.getElementById(s).classList.toggle('hidden', s!==id);
   });
 }
@@ -533,6 +613,7 @@ function setAuthTab(tab){
   document.getElementById('registerForm').classList.toggle('hidden', tab!=='register');
 }
 
+/* ---------- Auth cliente ---------- */
 function handleRegister(e){
   e.preventDefault();
   const name = document.getElementById('regName').value.trim();
@@ -540,65 +621,39 @@ function handleRegister(e){
   const email = document.getElementById('regEmail').value.trim().toLowerCase();
   const pass = document.getElementById('regPass').value;
   const users = getLS(LS.users, []);
-  if(users.some(u=>u.email===email)){
-    showFloatAlert("Ese correo ya está registrado. Intenta iniciar sesión.");
-    return false;
-  }
+  if(users.some(u=>u.email===email)){ showFloatAlert("Ese correo ya está registrado. Intenta iniciar sesión."); return false; }
   const user = { id: uid("USR"), name, phone, email, password: pass, createdAt: nowStr() };
-  users.push(user);
-  setLS(LS.users, users);
-  setLS(LS.session, { userId: user.id });
-  showFloatAlert("¡Cuenta creada con éxito!", "ok");
-  enterApp();
-  return false;
+  users.push(user); setLS(LS.users, users); setLS(LS.session, { userId: user.id });
+  showFloatAlert("¡Cuenta creada con éxito!", "ok"); enterApp(); return false;
 }
-
 function handleLogin(e){
   e.preventDefault();
   const email = document.getElementById('loginEmail').value.trim().toLowerCase();
   const pass = document.getElementById('loginPass').value;
   const users = getLS(LS.users, []);
   const found = users.find(u=>u.email===email && u.password===pass);
-  if(!found){
-    showFloatAlert("Credenciales incorrectas. Regístrate si eres nuevo.");
-    setAuthTab('register');
-    return false;
-  }
-  setLS(LS.session, { userId: found.id });
-  enterApp();
-  return false;
+  if(!found){ showFloatAlert("Credenciales incorrectas. Regístrate si eres nuevo."); setAuthTab('register'); return false; }
+  setLS(LS.session, { userId: found.id }); enterApp(); return false;
 }
-
-function logoutClient(){
-  localStorage.removeItem(LS.session);
-  showClientAuth();
-}
-
+function logoutClient(){ localStorage.removeItem(LS.session); showClientAuth(); }
 function currentUser(){
-  const sess = getLS(LS.session, null);
-  if(!sess) return null;
-  const users = getLS(LS.users, []);
-  return users.find(u=>u.id===sess.userId) || null;
+  const sess = getLS(LS.session, null); if(!sess) return null;
+  const users = getLS(LS.users, []); return users.find(u=>u.id===sess.userId) || null;
 }
 
+/* ---------- Auth admin ---------- */
 function handleAdminLogin(e){
   e.preventDefault();
   const u = document.getElementById('adminUser').value.trim();
   const p = document.getElementById('adminPass').value;
   const admin = getLS(LS.admin, {});
-  if(admin.username===u && admin.password===p){
-    setLS(LS.adminSession, { ok:true });
-    enterAdmin();
-  } else {
-    showFloatAlert("Usuario o contraseña de administrador incorrectos.");
-  }
+  if(admin.username===u && admin.password===p){ setLS(LS.adminSession, { ok:true }); enterAdmin(); }
+  else { showFloatAlert("Usuario o contraseña de administrador incorrectos."); }
   return false;
 }
-function logoutAdmin(){
-  localStorage.removeItem(LS.adminSession);
-  showAdminLogin();
-}
+function logoutAdmin(){ localStorage.removeItem(LS.adminSession); showAdminLogin(); }
 
+/* ---------- Branding ---------- */
 function applyBranding(){
   const admin = getLS(LS.admin, {});
   document.getElementById('brandName').innerHTML = "<b>"+ (admin.catalogName||"MaikolFollowers Pro") +"</b>";
@@ -608,28 +663,38 @@ function applyBranding(){
   document.getElementById('adminBrandPhoto').src = photo;
 }
 
+/* ---------- Enlace de promo en la URL ---------- */
+function checkPromoLinkParam(){
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('promo');
+  if(code){
+    const promos = getLS(LS.promos, []);
+    const promo = promos.find(p=>p.code===code && p.active);
+    if(promo){ localStorage.setItem(LS.activePromoCode, code); showFloatAlert("Promoción aplicada: " + promo.title, "ok"); }
+  }
+}
+
+/* ---------- Entrar a la app ---------- */
 let state = { platformId:null, catId:null };
 
 function enterApp(){
   applyBranding();
+  checkPromoLinkParam();
   const user = currentUser();
   document.getElementById('userChip').textContent = user ? ("👤 " + user.name) : "";
   showScreen('appScreen');
-  renderPromoFixed();
+  renderActivePromoRibbon();
+  renderRifaFixed();
+  renderPromosFixed();
   renderPlatformTabs();
-  maybeShowPromoPopup();
+  maybeShowAnnouncementPopups();
 }
+function enterAdmin(){ applyBranding(); showScreen('adminScreen'); setAdminTab('general'); }
 
-function enterAdmin(){
-  applyBranding();
-  showScreen('adminScreen');
-  setAdminTab('general');
-}
-
+/* ---------- Catálogo ---------- */
 function renderPlatformTabs(){
   const platforms = getLS(LS.platforms, []);
-  const box = document.getElementById('platformTabs');
-  box.innerHTML = "";
+  const box = document.getElementById('platformTabs'); box.innerHTML = "";
   if(!platforms.length){ box.innerHTML = '<div class="empty-note">Aún no hay plataformas configuradas.</div>'; return; }
   if(!state.platformId || !platforms.some(p=>p.id===state.platformId)) state.platformId = platforms[0].id;
   platforms.forEach(p=>{
@@ -641,127 +706,368 @@ function renderPlatformTabs(){
   });
   renderCatTabs();
 }
-
 function renderCatTabs(){
   const platforms = getLS(LS.platforms, []);
   const plat = platforms.find(p=>p.id===state.platformId);
-  const box = document.getElementById('catTabs');
-  box.innerHTML = "";
+  const box = document.getElementById('catTabs'); box.innerHTML = "";
   if(!plat || !plat.categories.length){ box.innerHTML=''; renderProductGrid(); return; }
   if(!state.catId || !plat.categories.some(c=>c.id===state.catId)) state.catId = plat.categories[0].id;
   plat.categories.forEach(c=>{
     const b = document.createElement('button');
-    b.textContent = c.name;
-    b.className = c.id===state.catId ? 'active' : '';
+    b.textContent = c.name; b.className = c.id===state.catId ? 'active' : '';
     b.onclick = ()=>{ state.catId = c.id; renderCatTabs(); };
     box.appendChild(b);
   });
   renderProductGrid();
 }
-
 function renderProductGrid(){
   const platforms = getLS(LS.platforms, []);
   const plat = platforms.find(p=>p.id===state.platformId);
-  const grid = document.getElementById('productGrid');
-  grid.innerHTML = "";
+  const grid = document.getElementById('productGrid'); grid.innerHTML = "";
   if(!plat){ return; }
   const cat = plat.categories.find(c=>c.id===state.catId);
-  if(!cat || !cat.products.length){
-    grid.innerHTML = '<div class="empty-note">No hay productos en esta categoría todavía.</div>';
-    return;
-  }
+  if(!cat || !cat.products.length){ grid.innerHTML = '<div class="empty-note">No hay productos en esta categoría todavía.</div>'; return; }
   cat.products.forEach(prod=>{
-    const card = document.createElement('div');
-    card.className = 'card mirror';
+    const card = document.createElement('div'); card.className = 'card mirror';
     card.innerHTML = `
       <span class="cid mono">#${prod.id}</span>
       ${prod.image ? `<img class="cimg" src="${prod.image}">` : ''}
-      <div class="cname">${prod.name}</div>
+      <div class="cname">${escapeHtml(prod.name)}</div>
       <div class="cprices">
         <span>Transferencia: <b>${fmtCUP(prod.priceTransfer)}</b></span>
         <span>Saldo Móvil: <b>${fmtCUP(prod.priceSaldo)}</b></span>
       </div>
-      <button class="btn btn-primary cbuy">Comprar</button>
-    `;
+      <button class="btn btn-primary cbuy">Comprar</button>`;
     card.querySelector('.cbuy').onclick = ()=> openBuyModal(plat, cat, prod);
     grid.appendChild(card);
   });
 }
 
-function renderPromoFixed(){
-  const promo = getLS(LS.promo, null);
-  const wrap = document.getElementById('promoFixedWrap');
-  if(!promo || !promo.active){ wrap.innerHTML = ""; return; }
+/* =========================================================
+   RIBBON de promo activa (enlace personalizado)
+   ========================================================= */
+function renderActivePromoRibbon(){
+  const wrap = document.getElementById('activePromoRibbonWrap');
+  const code = localStorage.getItem(LS.activePromoCode);
+  if(!code){ wrap.innerHTML=''; return; }
+  const promo = getLS(LS.promos, []).find(p=>p.code===code && p.active);
+  if(!promo){ wrap.innerHTML=''; return; }
+  wrap.innerHTML = `<div class="active-promo-ribbon">🎁 Promoción aplicada: <b>${escapeHtml(promo.title)}</b> <button onclick="clearActivePromo()">Quitar</button></div>`;
+}
+function clearActivePromo(){ localStorage.removeItem(LS.activePromoCode); renderActivePromoRibbon(); }
+
+/* =========================================================
+   MÓDULO RIFA (independiente)
+   ========================================================= */
+function rifaEntriesForUser(userId){ return getLS(LS.rifaEntries, []).find(e=>e.userId===userId) || null; }
+
+function renderRifaFixed(){
+  const rifa = getLS(LS.rifa, {});
+  const wrap = document.getElementById('rifaFixedWrap');
+  if(!rifa.active){ wrap.innerHTML = ""; return; }
+  const entries = getLS(LS.rifaEntries, []);
   wrap.innerHTML = `
-    <div class="promo-fixed mirror" onclick="openPromoFromFixed()">
-      ${promo.image ? `<img src="${promo.image}">` : '<div style="font-size:1.6rem;">🎁</div>'}
-      <div class="pf-text">
-        <div class="pf-tag">Promoción / Rifa activa</div>
-        <div class="pf-title">${promo.title}</div>
-        <div class="pf-desc">${promo.desc||""}</div>
+    <div class="announce-fixed mirror" onclick="openRifaScreen()">
+      ${rifa.image ? `<img src="${rifa.image}">` : '<div class="af-icon">🎟</div>'}
+      <div class="af-text">
+        <div class="af-tag">Anuncio · Rifa activa</div>
+        <div class="af-title">${escapeHtml(rifa.title)}</div>
+        <div class="af-desc">${escapeHtml(rifa.desc||"")}</div>
+        <div class="af-mini-count">${entries.length}/${rifa.totalNumbers} números tomados</div>
       </div>
-      <button class="btn btn-gold btn-sm">Ver</button>
-    </div>
-  `;
-}
-function openPromoFromFixed(){ openPromoPopup(false); }
-
-let promoCanClose = false;
-let promoTimerInterval = null;
-
-function maybeShowPromoPopup(){
-  const promo = getLS(LS.promo, null);
-  if(!promo || !promo.active) return;
-  openPromoPopup(true);
+      <button class="btn btn-gold btn-sm">Participar</button>
+    </div>`;
 }
 
-function openPromoPopup(withTimer){
-  const promo = getLS(LS.promo, null);
-  if(!promo) return;
-  document.getElementById('promoPopupTitle').textContent = promo.title;
-  document.getElementById('promoPopupDesc').textContent = promo.desc||"";
+function maybeShowAnnouncementPopups(){
+  const rifa = getLS(LS.rifa, {});
+  if(rifa.active){ openRifaPopup(); } else { maybeShowPromoPopupTeaser(); }
+}
+
+let rifaPopCanClose=false, rifaPopTimer=null;
+function openRifaPopup(){
+  const rifa = getLS(LS.rifa, {});
+  document.getElementById('rifaPopupTitle').textContent = rifa.title;
+  document.getElementById('rifaPopupDesc').textContent = rifa.desc||"";
+  const img = document.getElementById('rifaPopupImg');
+  if(rifa.image){ img.src=rifa.image; img.style.display='block'; } else { img.style.display='none'; }
+  document.getElementById('rifaOverlay').classList.remove('hidden');
+  rifaPopCanClose=false;
+  let remaining=10;
+  const timerEl = document.getElementById('rifaPopupTimer');
+  timerEl.textContent = `Puedes cerrar en ${remaining}s...`;
+  clearInterval(rifaPopTimer);
+  rifaPopTimer = setInterval(()=>{
+    remaining--;
+    if(remaining<=0){ rifaPopCanClose=true; clearInterval(rifaPopTimer); closeRifaPopup(true,true); }
+    else timerEl.textContent = `Puedes cerrar en ${remaining}s...`;
+  },1000);
+}
+function closeRifaPopup(manual, auto){
+  if(manual && !rifaPopCanClose && !auto) return;
+  clearInterval(rifaPopTimer);
+  document.getElementById('rifaOverlay').classList.add('hidden');
+  maybeShowPromoPopupTeaser();
+}
+function rifaPopupParticipar(){ closeRifaPopup(true,true); openRifaScreen(); }
+
+function openRifaScreen(){
+  const rifa = getLS(LS.rifa, {});
+  const user = currentUser();
+  document.getElementById('rifaUserChip').textContent = user ? ("👤 " + user.name) : "";
+  document.getElementById('rifaTitle').textContent = "🎟 " + rifa.title;
+  document.getElementById('rifaDesc').textContent = rifa.desc || "";
+  showScreen('rifaScreen');
+  renderRifaScreenContent();
+}
+function closeRifaScreen(){ showScreen('appScreen'); renderRifaFixed(); }
+
+function renderRifaScreenContent(){
+  const rifa = getLS(LS.rifa, {});
+  const entries = getLS(LS.rifaEntries, []);
+  const user = currentUser();
+  const myEntry = user ? rifaEntriesForUser(user.id) : null;
+
+  // Calendario
+  const dateObj = rifa.drawDate ? new Date(rifa.drawDate) : null;
+  const calWrap = document.getElementById('rifaCalendarWrap');
+  calWrap.innerHTML = dateObj ? `<div class="calendar-chip">📅 Sorteo: ${dateObj.toLocaleDateString("es-CU",{weekday:'long', day:'numeric', month:'long'})} · ${dateObj.toLocaleTimeString("es-CU",{hour:'2-digit',minute:'2-digit'})}</div>` : '';
+
+  renderRifaCountdown();
+
+  // Estado del usuario
+  const statusWrap = document.getElementById('rifaStatusWrap');
+  if(rifa.drawn){
+    statusWrap.innerHTML = `
+      <div class="winner-banner mirror">
+        <div style="color:var(--gold);font-size:.75rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;">🏆 Número ganador</div>
+        <div class="wb-num">${rifa.winnerNumber}</div>
+        <div style="color:var(--text-dim);font-size:.85rem;">${rifa.winnerEntry ? escapeHtml(rifa.winnerEntry.userName) : ''}</div>
+      </div>`;
+    document.getElementById('rifaWheelWrap').innerHTML = buildWheelHtml(entries, rifa.winnerNumber, true);
+    document.getElementById('rifaGridWrap').innerHTML = "";
+    renderRifaGridStatic(rifa, entries);
+    setTimeout(()=>spinWheelToWinner(entries, rifa.winnerNumber), 200);
+    return;
+  }
+  document.getElementById('rifaWheelWrap').innerHTML = "";
+
+  if(myEntry){
+    statusWrap.innerHTML = `
+      <div class="rifa-status mirror">
+        <div style="color:var(--text-dim);font-size:.8rem;">Tu número de la suerte</div>
+        <div class="rifa-mynum">${myEntry.number}</div>
+        <div style="color:var(--text-dim);font-size:.8rem;margin-bottom:14px;">Registrado el ${myEntry.claimedAt}</div>
+        <button class="btn btn-gold" onclick="shareRifaLink()">📤 Compartir con tus amigos</button>
+      </div>`;
+  } else if(!user) {
+    statusWrap.innerHTML = `<div class="rifa-status mirror">Inicia sesión para elegir tu número.</div>`;
+  } else {
+    statusWrap.innerHTML = `<div class="rifa-status mirror">Selecciona un número disponible en la cuadrícula. Solo puedes elegir <b style="color:var(--gold-2)">uno por cuenta</b>.</div>`;
+  }
+
+  renderRifaGridStatic(rifa, entries, myEntry);
+}
+
+function renderRifaGridStatic(rifa, entries, myEntry){
+  const gridWrap = document.getElementById('rifaGridWrap');
+  const taken = {}; entries.forEach(e=> taken[e.number]=e);
+  let html = '<div class="rifa-grid">';
+  for(let n=1; n<=rifa.totalNumbers; n++){
+    const e = taken[n];
+    const mine = myEntry && e && e.userId===myEntry.userId;
+    const winner = rifa.drawn && rifa.winnerNumber===n;
+    let cls='rifa-num'; if(winner) cls+=' winner'; else if(mine) cls+=' mine'; else if(e) cls+=' taken';
+    html += `<div class="${cls}" ${(!e && !rifa.drawn) ? `onclick="registerRifaNumber(${n})"` : ''}>${n}</div>`;
+  }
+  html += '</div>';
+  gridWrap.innerHTML = html;
+}
+
+function registerRifaNumber(n){
+  const rifa = getLS(LS.rifa, {});
+  if(rifa.drawn){ showFloatAlert("Esta rifa ya realizó su sorteo."); return; }
+  const user = currentUser();
+  if(!user){ showFloatAlert("Inicia sesión para participar."); return; }
+  const entries = getLS(LS.rifaEntries, []);
+  if(entries.some(e=>e.userId===user.id)){ showFloatAlert("Ya tienes un número asignado."); return; }
+  if(entries.some(e=>e.number===n)){ showFloatAlert("Ese número ya fue tomado."); renderRifaScreenContent(); return; }
+  entries.push({ number:n, userId:user.id, userName:user.name, userPhone:user.phone, userEmail:user.email, claimedAt: nowStr() });
+  setLS(LS.rifaEntries, entries);
+  showFloatAlert("¡Número " + n + " registrado! Mucha suerte 🍀", "ok");
+  renderRifaScreenContent();
+  renderRifaFixed();
+}
+
+function shareRifaLink(){
+  const link = window.location.origin + window.location.pathname;
+  const done = ()=> showFloatAlert("Enlace copiado. ¡Compártelo con tus amigos!", "ok");
+  if(navigator.clipboard){ navigator.clipboard.writeText(link).then(done).catch(()=>showFloatAlert("No se pudo copiar. Enlace: " + link)); }
+  else { showFloatAlert("Enlace: " + link); }
+}
+
+function renderRifaCountdown(){
+  const rifa = getLS(LS.rifa, {});
+  const box = document.getElementById('rifaCountdown');
+  if(!box) return;
+  if(rifa.drawn){ box.innerHTML = '<div style="color:var(--ok);font-weight:700;">✔ Sorteo realizado</div>'; return; }
+  const target = rifa.drawDate ? new Date(rifa.drawDate).getTime() : 0;
+  const diff = Math.max(0, target - Date.now());
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  box.innerHTML = `
+    <div class="cbox"><b>${d}</b><span>Días</span></div>
+    <div class="cbox"><b>${h}</b><span>Horas</span></div>
+    <div class="cbox"><b>${m}</b><span>Min</span></div>
+    <div class="cbox"><b>${s}</b><span>Seg</span></div>`;
+}
+
+/* Ruleta */
+function buildWheelHtml(entries, winnerNumber, showBanner){
+  if(!entries.length) return '<div class="empty-note">No hubo participantes registrados.</div>';
+  return `<div class="wheel-wrap"><div class="wheel-pointer"></div><div class="wheel" id="rifaWheelEl"></div></div>`;
+}
+let wheelSpun = false;
+function spinWheelToWinner(entries, winnerNumber){
+  const el = document.getElementById('rifaWheelEl');
+  if(!el || !entries.length) return;
+  const n = entries.length;
+  const colors = ['#00d9ff','#ffcc33'];
+  const seg = 360/n;
+  let gradient = 'conic-gradient(';
+  entries.forEach((e,i)=>{ gradient += `${colors[i%2]} ${i*seg}deg ${(i+1)*seg}deg${i<n-1?', ':''}`; });
+  gradient += ')';
+  el.style.background = gradient;
+  el.innerHTML = '';
+  entries.forEach((e,i)=>{
+    const mid = seg*i + seg/2;
+    const lbl = document.createElement('div');
+    lbl.className='wheel-label';
+    lbl.style.transform = `rotate(${mid}deg)`;
+    lbl.innerHTML = `<span>${e.number}</span>`;
+    el.appendChild(lbl);
+  });
+  if(wheelSpun) { el.style.transform = el.dataset.finalRotation ? `rotate(${el.dataset.finalRotation}deg)` : ''; return; }
+  const winIdx = entries.findIndex(e=>e.number===winnerNumber);
+  const winMid = seg*winIdx + seg/2;
+  const finalRotation = 360*5 + (360 - winMid);
+  requestAnimationFrame(()=>{ el.style.transform = `rotate(${finalRotation}deg)`; el.dataset.finalRotation = finalRotation; wheelSpun = true; });
+}
+
+/* =========================================================
+   MÓDULO PROMOCIONES (independiente)
+   ========================================================= */
+function activePromos(){ return getLS(LS.promos, []).filter(p=>p.active); }
+
+function promoTypeLabel(type){
+  return { discount:'Precio rebajado', combo:'Combo', gift:'Regalo', percent:'Descuento %', other:'Promoción' }[type] || 'Promoción';
+}
+function promoTeaserPrice(p){
+  if(p.type==='discount') return `<s>${fmtCUP(p.priceBefore)}</s> <b>${fmtCUP(p.priceAfter)}</b>`;
+  if(p.type==='percent') return `<b>${p.percentValue}% OFF</b>`;
+  if(p.type==='combo') return `<b>${fmtCUP(p.comboPrice)}</b>`;
+  if(p.type==='gift') return `<b>🎁 Regalo incluido</b>`;
+  return '';
+}
+
+function renderPromosFixed(){
+  const wrap = document.getElementById('promosFixedWrap');
+  const promos = activePromos();
+  if(!promos.length){ wrap.innerHTML = ""; return; }
+  wrap.innerHTML = `<div class="promos-row">` + promos.map(p=>`
+    <div class="promo-teaser mirror" onclick="openPromoDetail('${p.id}')">
+      <div class="pt-type">${promoTypeLabel(p.type)}</div>
+      <div class="pt-title">${escapeHtml(p.title)}</div>
+      <div class="pt-sub pt-price">${promoTeaserPrice(p)}</div>
+    </div>`).join('') + `</div>`;
+}
+
+let promoPopCanClose=false, promoPopTimer=null, promoPopTargetId=null;
+function maybeShowPromoPopupTeaser(){
+  const promos = activePromos();
+  if(!promos.length) return;
+  const p = promos[promos.length-1];
+  openPromoPopupTeaser(p);
+}
+function openPromoPopupTeaser(p){
+  promoPopTargetId = p.id;
+  document.getElementById('promoPopupTag').textContent = "🔥 " + promoTypeLabel(p.type) + " activa";
+  document.getElementById('promoPopupTitle').textContent = p.title;
+  document.getElementById('promoPopupDesc').textContent = p.desc||"";
   const img = document.getElementById('promoPopupImg');
-  if(promo.image){ img.src = promo.image; img.style.display='block'; } else { img.style.display='none'; }
-  document.getElementById('promoPopupCta').textContent = promo.ctaText || "Ver promoción";
-  document.getElementById('promoOverlay').classList.remove('hidden');
+  if(p.image){ img.src=p.image; img.style.display='block'; } else { img.style.display='none'; }
+  document.getElementById('promoPopupOverlay').classList.remove('hidden');
+  promoPopCanClose=false;
+  let remaining=10;
+  const timerEl = document.getElementById('promoPopupTimer');
+  timerEl.textContent = `Puedes cerrar en ${remaining}s...`;
+  clearInterval(promoPopTimer);
+  promoPopTimer = setInterval(()=>{
+    remaining--;
+    if(remaining<=0){ promoPopCanClose=true; clearInterval(promoPopTimer); closePromoPopupTeaser(true,true); }
+    else timerEl.textContent = `Puedes cerrar en ${remaining}s...`;
+  },1000);
+}
+function closePromoPopupTeaser(manual, auto){
+  if(manual && !promoPopCanClose && !auto) return;
+  clearInterval(promoPopTimer);
+  document.getElementById('promoPopupOverlay').classList.add('hidden');
+}
+function promoPopupVer(){ const id=promoPopTargetId; closePromoPopupTeaser(true,true); if(id) openPromoDetail(id); }
 
-  promoCanClose = !withTimer;
-  const timerText = document.getElementById('promoTimerText');
-  clearInterval(promoTimerInterval);
-  if(withTimer){
-    let remaining = 10;
-    timerText.textContent = `Puedes cerrar en ${remaining}s...`;
-    promoTimerInterval = setInterval(()=>{
-      remaining--;
-      if(remaining<=0){
-        promoCanClose = true;
-        clearInterval(promoTimerInterval);
-        closePromoPopup(true, true);
-      } else {
-        timerText.textContent = `Puedes cerrar en ${remaining}s...`;
-      }
-    },1000);
-  } else {
-    timerText.textContent = "";
+let promoDetailId = null;
+function openPromoDetail(id){
+  const p = getLS(LS.promos, []).find(x=>x.id===id);
+  if(!p) return;
+  promoDetailId = id;
+  document.getElementById('pdTag').textContent = promoTypeLabel(p.type);
+  document.getElementById('pdTitle').textContent = p.title;
+  document.getElementById('pdDesc').textContent = p.desc||"";
+  const img = document.getElementById('pdImg');
+  if(p.image){ img.src=p.image; img.style.display='block'; } else { img.style.display='none'; }
+
+  let body = '';
+  if(p.type==='discount'){
+    const pct = p.priceBefore ? Math.round((1 - p.priceAfter/p.priceBefore)*100) : 0;
+    body = `<div class="price-compare"><s>${fmtCUP(p.priceBefore)}</s><b>${fmtCUP(p.priceAfter)}</b></div><span class="price-badge">${pct}% de ahorro</span>`;
+  } else if(p.type==='combo'){
+    const items = (p.comboItems||'').split('\n').filter(Boolean);
+    body = `<ul class="combo-list">${items.map(i=>`<li>${escapeHtml(i)}</li>`).join('')}</ul><div class="price-compare"><b>${fmtCUP(p.comboPrice)}</b></div>`;
+  } else if(p.type==='gift'){
+    body = `<div class="gift-box"><div class="gi">🎁</div><div><b>${escapeHtml(p.giftCondition||'')}</b><br><span style="color:var(--text-dim);font-size:.85rem;">Regalo: ${escapeHtml(p.giftReward||'')}</span></div></div>`;
+  } else if(p.type==='percent'){
+    const base = p.percentBase;
+    const finalPrice = base ? Math.round(base * (1 - p.percentValue/100)) : null;
+    body = `<span class="price-badge" style="font-size:.85rem;">${p.percentValue}% de descuento</span>` + (finalPrice ? `<div class="price-compare" style="margin-top:10px;"><s>${fmtCUP(base)}</s><b>${fmtCUP(finalPrice)}</b></div>` : '');
   }
+  document.getElementById('pdTypeBody').innerHTML = body;
+
+  const link = window.location.origin + window.location.pathname + "?promo=" + p.code;
+  document.getElementById('pdLink').textContent = link;
+  document.getElementById('promoDetailOverlay').classList.remove('hidden');
+}
+function closePromoDetail(){ document.getElementById('promoDetailOverlay').classList.add('hidden'); }
+function copyPromoLink(){
+  const link = document.getElementById('pdLink').textContent;
+  const done = ()=> showFloatAlert("Enlace copiado", "ok");
+  if(navigator.clipboard){ navigator.clipboard.writeText(link).then(done).catch(()=>showFloatAlert("No se pudo copiar. Enlace: " + link)); }
+  else { showFloatAlert("Enlace: " + link); }
+}
+function usePromoNow(){
+  const p = getLS(LS.promos, []).find(x=>x.id===promoDetailId);
+  if(!p) return;
+  localStorage.setItem(LS.activePromoCode, p.code);
+  closePromoDetail();
+  renderActivePromoRibbon();
+  showFloatAlert("Promoción activada para tu próxima compra", "ok");
+  document.getElementById('productGrid').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-function closePromoPopup(manual, auto){
-  if(manual && !promoCanClose && !auto) return;
-  clearInterval(promoTimerInterval);
-  document.getElementById('promoOverlay').classList.add('hidden');
-}
-
-function promoCtaClick(){
-  const promo = getLS(LS.promo, null);
-  closePromoPopup(true, true);
-  if(promo && promo.ctaLink){
-    window.open(promo.ctaLink, '_blank');
-  } else {
-    document.getElementById('promoFixedWrap').scrollIntoView({behavior:'smooth', block:'center'});
-  }
-}
-
+/* =========================================================
+   Compra / WhatsApp
+   ========================================================= */
 let buyCtx = null;
 function openBuyModal(plat, cat, prod){
   buyCtx = { plat, cat, prod, method:null };
@@ -772,6 +1078,11 @@ function openBuyModal(plat, cat, prod){
   document.getElementById('buyTotalPrice').textContent = "—";
   document.getElementById('confirmBuyBtn').disabled = true;
   document.getElementById('surgeAnim').classList.remove('show');
+
+  const code = localStorage.getItem(LS.activePromoCode);
+  const promo = code ? getLS(LS.promos, []).find(p=>p.code===code && p.active) : null;
+  document.getElementById('buyPromoTagWrap').innerHTML = promo ? `<div class="buy-promo-tag">🎁 Promoción aplicada: <b>${escapeHtml(promo.title)}</b></div>` : '';
+
   document.getElementById('buyOverlay').classList.remove('hidden');
 }
 function closeBuyModal(){ document.getElementById('buyOverlay').classList.add('hidden'); buyCtx=null; }
@@ -791,61 +1102,51 @@ function confirmPurchase(){
   const user = currentUser();
   if(!user){ showFloatAlert("Sesión no válida, inicia sesión de nuevo."); showClientAuth(); return; }
   const price = buyCtx.method==='Transferencia' ? buyCtx.prod.priceTransfer : buyCtx.prod.priceSaldo;
+
+  const code = localStorage.getItem(LS.activePromoCode);
+  const promo = code ? getLS(LS.promos, []).find(p=>p.code===code && p.active) : null;
+
   const order = {
-    id: uid("ORD"),
-    userId: user.id, userName:user.name, userPhone:user.phone, userEmail:user.email,
-    productId: buyCtx.prod.id, productName: buyCtx.prod.name,
-    platform: buyCtx.plat.name, category: buyCtx.cat.name,
-    method: buyCtx.method, total: price, date: nowStr()
+    id: uid("ORD"), userId: user.id, userName:user.name, userPhone:user.phone, userEmail:user.email,
+    productId: buyCtx.prod.id, productName: buyCtx.prod.name, platform: buyCtx.plat.name, category: buyCtx.cat.name,
+    method: buyCtx.method, total: price, date: nowStr(),
+    promoTitle: promo ? promo.title : ""
   };
-  const orders = getLS(LS.orders, []);
-  orders.unshift(order);
-  setLS(LS.orders, orders);
+  const orders = getLS(LS.orders, []); orders.unshift(order); setLS(LS.orders, orders);
 
   const lines = [
-    "⚡ Nuevo pedido — MaikolFollowers Pro",
-    "",
-    `Nombre: ${user.name}`,
-    `Teléfono: ${user.phone}`,
-    `Email: ${user.email}`,
-    `Producto: ${order.productName}`,
-    `Cantidad: 1`,
-    `ID del producto: ${order.productId}`,
-    `Método de pago: ${order.method}`,
-    `Precio total: ${fmtCUP(order.total)}`,
-    `Fecha y hora: ${order.date}`
+    "⚡ Nuevo pedido — MaikolFollowers Pro", "",
+    `Nombre: ${user.name}`, `Teléfono: ${user.phone}`, `Email: ${user.email}`,
+    `Producto: ${order.productName}`, `Cantidad: 1`, `ID del producto: ${order.productId}`,
+    `Método de pago: ${order.method}`, `Precio total: ${fmtCUP(order.total)}`, `Fecha y hora: ${order.date}`
   ];
+  if(promo) lines.push(`Promoción aplicada: ${promo.title}`);
   const msg = encodeURIComponent(lines.join("\n"));
   const url = `https://wa.me/${WA_NUMBER}?text=${msg}`;
 
   document.getElementById('surgeAnim').classList.add('show');
   document.getElementById('confirmBuyBtn').disabled = true;
-  setTimeout(()=>{
-    window.open(url, '_blank');
-    closeBuyModal();
-  }, 750);
+  setTimeout(()=>{ window.open(url, '_blank'); closeBuyModal(); }, 750);
 }
 
+/* =========================================================
+   PANEL ADMIN
+   ========================================================= */
 let adminTab = 'general';
-
 function toggleAdminSide(){ document.getElementById('adminSide').classList.toggle('open'); }
-
 function setAdminTab(tab){
   adminTab = tab;
   document.querySelectorAll('.admin-nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
   document.getElementById('adminSide').classList.remove('open');
-  const map = { general: renderAdminGeneral, catalogo: renderAdminCatalogo, plataformas: renderAdminPlataformas, marketing: renderAdminMarketing, pedidos: renderAdminPedidos, credenciales: renderAdminCredenciales };
+  const map = { general: renderAdminGeneral, catalogo: renderAdminCatalogo, plataformas: renderAdminPlataformas, rifa: renderAdminRifa, promos: renderAdminPromos, pedidos: renderAdminPedidos, credenciales: renderAdminCredenciales };
   (map[tab]||renderAdminGeneral)();
 }
-
 function fileToBase64(input, cb){
-  const f = input.files && input.files[0];
-  if(!f) return;
-  const reader = new FileReader();
-  reader.onload = ()=> cb(reader.result);
-  reader.readAsDataURL(f);
+  const f = input.files && input.files[0]; if(!f) return;
+  const reader = new FileReader(); reader.onload = ()=> cb(reader.result); reader.readAsDataURL(f);
 }
 
+/* --- General --- */
 function renderAdminGeneral(){
   const admin = getLS(LS.admin, {});
   const c = document.getElementById('adminContent');
@@ -854,21 +1155,16 @@ function renderAdminGeneral(){
     <div class="admin-card mirror">
       <h3>Identidad del catálogo</h3>
       <div class="row2">
-        <div class="field"><label>Nombre del catálogo</label><input id="genName" value="${admin.catalogName||''}"></div>
-        <div class="field">
-          <label>Foto de perfil</label>
+        <div class="field"><label>Nombre del catálogo</label><input id="genName" value="${escapeHtml(admin.catalogName||'')}"></div>
+        <div class="field"><label>Foto de perfil</label>
           <div class="file-drop" onclick="document.getElementById('genPhotoInput').click()">
-            <input type="file" id="genPhotoInput" accept="image/*">
-            📷 ${admin.photo ? 'Cambiar imagen' : 'Subir imagen'}
+            <input type="file" id="genPhotoInput" accept="image/*">📷 ${admin.photo ? 'Cambiar imagen' : 'Subir imagen'}
           </div>
         </div>
       </div>
-      <div style="margin-top:14px;">
-        ${admin.photo ? `<img src="${admin.photo}" class="img-prev">` : ''}
-      </div>
+      <div style="margin-top:14px;">${admin.photo ? `<img src="${admin.photo}" class="img-prev">` : ''}</div>
       <button class="btn btn-primary" style="margin-top:16px;" onclick="saveAdminGeneral()">Guardar cambios</button>
-    </div>
-  `;
+    </div>`;
   document.getElementById('genPhotoInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingGenPhoto = b64; });
   window.__pendingGenPhoto = admin.photo || "";
 }
@@ -876,12 +1172,10 @@ function saveAdminGeneral(){
   const admin = getLS(LS.admin, {});
   admin.catalogName = document.getElementById('genName').value.trim() || admin.catalogName;
   if(window.__pendingGenPhoto) admin.photo = window.__pendingGenPhoto;
-  setLS(LS.admin, admin);
-  applyBranding();
-  showFloatAlert("Configuración guardada", "ok");
-  renderAdminGeneral();
+  setLS(LS.admin, admin); applyBranding(); showFloatAlert("Configuración guardada", "ok"); renderAdminGeneral();
 }
 
+/* --- Credenciales --- */
 function renderAdminCredenciales(){
   const admin = getLS(LS.admin, {});
   const c = document.getElementById('adminContent');
@@ -889,12 +1183,11 @@ function renderAdminCredenciales(){
     <h2>🔑 Credenciales de administrador</h2>
     <div class="admin-card mirror">
       <div class="row2">
-        <div class="field"><label>Usuario</label><input id="credUser" value="${admin.username||''}"></div>
+        <div class="field"><label>Usuario</label><input id="credUser" value="${escapeHtml(admin.username||'')}"></div>
         <div class="field"><label>Nueva contraseña</label><input id="credPass" type="password" placeholder="Dejar en blanco para no cambiar"></div>
       </div>
       <button class="btn btn-primary" onclick="saveAdminCreds()">Actualizar credenciales</button>
-    </div>
-  `;
+    </div>`;
 }
 function saveAdminCreds(){
   const admin = getLS(LS.admin, {});
@@ -902,23 +1195,19 @@ function saveAdminCreds(){
   const newPass = document.getElementById('credPass').value;
   if(newUser) admin.username = newUser;
   if(newPass) admin.password = newPass;
-  setLS(LS.admin, admin);
-  showFloatAlert("Credenciales actualizadas", "ok");
-  renderAdminCredenciales();
+  setLS(LS.admin, admin); showFloatAlert("Credenciales actualizadas", "ok"); renderAdminCredenciales();
 }
 
+/* --- Plataformas --- */
 function renderAdminPlataformas(){
   const platforms = getLS(LS.platforms, []);
   const c = document.getElementById('adminContent');
   let rows = platforms.map(p=>`
-    <tr>
-      <td>${p.icon||''} ${p.name}</td>
-      <td>${p.categories.length} categorías</td>
+    <tr><td>${p.icon||''} ${escapeHtml(p.name)}</td><td>${p.categories.length} categorías</td>
       <td class="actions">
         <button class="btn btn-ghost btn-sm" onclick="setAdminTab('catalogo');selectCatalogPlatform('${p.id}')">Ver catálogo</button>
         <button class="btn btn-danger btn-sm" onclick="deletePlatform('${p.id}')">Eliminar</button>
-      </td>
-    </tr>`).join('');
+      </td></tr>`).join('');
   c.innerHTML = `
     <h2>🌐 Plataformas</h2>
     <div class="admin-card mirror">
@@ -932,8 +1221,7 @@ function renderAdminPlataformas(){
     <div class="admin-card mirror">
       <h3>Plataformas existentes</h3>
       <table><thead><tr><th>Plataforma</th><th>Categorías</th><th>Acciones</th></tr></thead><tbody>${rows || '<tr><td colspan="3">Sin plataformas.</td></tr>'}</tbody></table>
-    </div>
-  `;
+    </div>`;
 }
 function addPlatform(){
   const name = document.getElementById('newPlatName').value.trim();
@@ -941,50 +1229,37 @@ function addPlatform(){
   if(!name){ showFloatAlert("Escribe el nombre de la plataforma."); return; }
   const platforms = getLS(LS.platforms, []);
   platforms.push({ id: uid("PLT"), name, icon, categories: [] });
-  setLS(LS.platforms, platforms);
-  showFloatAlert("Plataforma agregada", "ok");
-  renderAdminPlataformas();
+  setLS(LS.platforms, platforms); showFloatAlert("Plataforma agregada", "ok"); renderAdminPlataformas();
 }
 function deletePlatform(id){
   if(!confirm("¿Eliminar esta plataforma y todo su catálogo?")) return;
-  let platforms = getLS(LS.platforms, []);
-  platforms = platforms.filter(p=>p.id!==id);
-  setLS(LS.platforms, platforms);
-  renderAdminPlataformas();
+  let platforms = getLS(LS.platforms, []).filter(p=>p.id!==id);
+  setLS(LS.platforms, platforms); renderAdminPlataformas();
 }
 
+/* --- Catálogo --- */
 let catalogState = { platformId:null, catId:null };
 function selectCatalogPlatform(id){ catalogState.platformId = id; catalogState.catId=null; renderAdminCatalogo(); }
-
 function renderAdminCatalogo(){
   const platforms = getLS(LS.platforms, []);
   const c = document.getElementById('adminContent');
-  if(!platforms.length){
-    c.innerHTML = `<h2>📦 Catálogo</h2><div class="admin-card mirror">Primero crea una plataforma en la sección "Plataformas".</div>`;
-    return;
-  }
+  if(!platforms.length){ c.innerHTML = `<h2>📦 Catálogo</h2><div class="admin-card mirror">Primero crea una plataforma en la sección "Plataformas".</div>`; return; }
   if(!catalogState.platformId || !platforms.some(p=>p.id===catalogState.platformId)) catalogState.platformId = platforms[0].id;
   const plat = platforms.find(p=>p.id===catalogState.platformId);
-
-  const platChips = platforms.map(p=>`<button class="${p.id===catalogState.platformId?'active':''}" onclick="selectCatalogPlatform('${p.id}')">${p.icon||''} ${p.name}</button>`).join('');
-
+  const platChips = platforms.map(p=>`<button class="${p.id===catalogState.platformId?'active':''}" onclick="selectCatalogPlatform('${p.id}')">${p.icon||''} ${escapeHtml(p.name)}</button>`).join('');
   c.innerHTML = `
     <h2>📦 Gestión de catálogo</h2>
     <div class="chip-select">${platChips}</div>
-
     <div class="admin-card mirror">
-      <h3>Agregar categoría a ${plat.name}</h3>
+      <h3>Agregar categoría a ${escapeHtml(plat.name)}</h3>
       <div class="row2">
         <div class="field"><label>Nombre de categoría</label><input id="newCatName" placeholder="Ej: Comentarios"></div>
         <div class="field" style="display:flex;align-items:flex-end;"><button class="btn btn-gold btn-block" onclick="addCategory()">Agregar categoría</button></div>
       </div>
     </div>
-
-    <div id="catalogCatsWrap"></div>
-  `;
+    <div id="catalogCatsWrap"></div>`;
   renderCatalogCategories();
 }
-
 function renderCatalogCategories(){
   const platforms = getLS(LS.platforms, []);
   const plat = platforms.find(p=>p.id===catalogState.platformId);
@@ -993,52 +1268,40 @@ function renderCatalogCategories(){
   wrap.innerHTML = plat.categories.map(cat=>`
     <div class="admin-card mirror">
       <h3 style="display:flex;justify-content:space-between;align-items:center;">
-        <span>${cat.name} <span style="color:var(--text-dim);font-weight:400;font-size:.8rem;">(${cat.products.length} productos)</span></span>
+        <span>${escapeHtml(cat.name)} <span style="color:var(--text-dim);font-weight:400;font-size:.8rem;">(${cat.products.length} productos)</span></span>
         <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">Eliminar categoría</button>
       </h3>
       <table>
         <thead><tr><th>ID</th><th>Producto</th><th>Transferencia</th><th>Saldo Móvil</th><th>Img</th><th>Acciones</th></tr></thead>
         <tbody>
           ${cat.products.map(p=>`
-            <tr>
-              <td class="mono">${p.id}</td>
-              <td>${p.name}</td>
-              <td class="mono">${fmtCUP(p.priceTransfer)}</td>
-              <td class="mono">${fmtCUP(p.priceSaldo)}</td>
+            <tr><td class="mono">${p.id}</td><td>${escapeHtml(p.name)}</td><td class="mono">${fmtCUP(p.priceTransfer)}</td><td class="mono">${fmtCUP(p.priceSaldo)}</td>
               <td>${p.image ? `<img class="img-prev" src="${p.image}">` : '—'}</td>
               <td class="actions">
                 <button class="btn btn-ghost btn-sm" onclick="editProduct('${cat.id}','${p.id}')">Editar</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteProduct('${cat.id}','${p.id}')">Eliminar</button>
-              </td>
-            </tr>
-          `).join('') || `<tr><td colspan="6">Sin productos.</td></tr>`}
+              </td></tr>`).join('') || `<tr><td colspan="6">Sin productos.</td></tr>`}
         </tbody>
       </table>
       <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="openProductForm('${cat.id}')">+ Nuevo producto</button>
       <div id="prodForm-${cat.id}"></div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
-
 function addCategory(){
   const name = document.getElementById('newCatName').value.trim();
   if(!name){ showFloatAlert("Escribe el nombre de la categoría."); return; }
   const platforms = getLS(LS.platforms, []);
   const plat = platforms.find(p=>p.id===catalogState.platformId);
   plat.categories.push({ id: uid("CAT"), name, products: [] });
-  setLS(LS.platforms, platforms);
-  showFloatAlert("Categoría agregada", "ok");
-  renderAdminCatalogo();
+  setLS(LS.platforms, platforms); showFloatAlert("Categoría agregada", "ok"); renderAdminCatalogo();
 }
 function deleteCategory(catId){
   if(!confirm("¿Eliminar esta categoría y sus productos?")) return;
   const platforms = getLS(LS.platforms, []);
   const plat = platforms.find(p=>p.id===catalogState.platformId);
   plat.categories = plat.categories.filter(c=>c.id!==catId);
-  setLS(LS.platforms, platforms);
-  renderAdminCatalogo();
+  setLS(LS.platforms, platforms); renderAdminCatalogo();
 }
-
 function openProductForm(catId, editProdId){
   const platforms = getLS(LS.platforms, []);
   const plat = platforms.find(p=>p.id===catalogState.platformId);
@@ -1049,12 +1312,11 @@ function openProductForm(catId, editProdId){
     <div class="admin-card" style="background:rgba(0,217,255,.04);margin-top:12px;">
       <h3>${editing ? 'Editar producto' : 'Nuevo producto'}</h3>
       <div class="row3">
-        <div class="field"><label>Nombre</label><input id="pfName" value="${editing?editing.name:''}"></div>
+        <div class="field"><label>Nombre</label><input id="pfName" value="${editing?escapeHtml(editing.name):''}"></div>
         <div class="field"><label>Precio Transferencia (CUP)</label><input id="pfTransfer" type="number" value="${editing?editing.priceTransfer:''}"></div>
         <div class="field"><label>Precio Saldo Móvil (CUP)</label><input id="pfSaldo" type="number" value="${editing?editing.priceSaldo:''}"></div>
       </div>
-      <div class="field">
-        <label>Imagen del producto</label>
+      <div class="field"><label>Imagen del producto</label>
         <div class="file-drop" onclick="document.getElementById('pfImgInput').click()">
           <input type="file" id="pfImgInput" accept="image/*">📷 ${editing&&editing.image ? 'Cambiar imagen' : 'Subir imagen (opcional)'}
         </div>
@@ -1064,13 +1326,11 @@ function openProductForm(catId, editProdId){
         <button class="btn btn-primary btn-sm" onclick="saveProduct('${catId}','${editProdId||''}')">Guardar producto</button>
         <button class="btn btn-ghost btn-sm" onclick="document.getElementById('prodForm-${catId}').innerHTML=''">Cancelar</button>
       </div>
-    </div>
-  `;
+    </div>`;
   window.__pendingProdImg = editing ? (editing.image||"") : "";
   document.getElementById('pfImgInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingProdImg = b64; });
 }
 function editProduct(catId, prodId){ openProductForm(catId, prodId); }
-
 function saveProduct(catId, prodId){
   const name = document.getElementById('pfName').value.trim();
   const transfer = parseFloat(document.getElementById('pfTransfer').value);
@@ -1086,9 +1346,7 @@ function saveProduct(catId, prodId){
   } else {
     cat.products.push({ id: uid("PRD"), name, priceTransfer:transfer, priceSaldo:saldo, image: window.__pendingProdImg||"" });
   }
-  setLS(LS.platforms, platforms);
-  showFloatAlert("Producto guardado", "ok");
-  renderAdminCatalogo();
+  setLS(LS.platforms, platforms); showFloatAlert("Producto guardado", "ok"); renderAdminCatalogo();
 }
 function deleteProduct(catId, prodId){
   if(!confirm("¿Eliminar este producto?")) return;
@@ -1096,94 +1354,274 @@ function deleteProduct(catId, prodId){
   const plat = platforms.find(p=>p.id===catalogState.platformId);
   const cat = plat.categories.find(c=>c.id===catId);
   cat.products = cat.products.filter(p=>p.id!==prodId);
-  setLS(LS.platforms, platforms);
-  renderAdminCatalogo();
+  setLS(LS.platforms, platforms); renderAdminCatalogo();
 }
 
-function renderAdminMarketing(){
-  const promo = getLS(LS.promo, {});
+/* --- Admin: Anuncio / Rifa --- */
+function renderAdminRifa(){
+  const rifa = getLS(LS.rifa, {});
+  const entries = getLS(LS.rifaEntries, []);
   const c = document.getElementById('adminContent');
+  const canDraw = rifa.drawDate && (Date.now() >= new Date(rifa.drawDate).getTime()) && !rifa.drawn && entries.length>0;
   c.innerHTML = `
-    <h2>📣 Marketing, rifas y anuncios</h2>
+    <h2>🎟 Anuncio / Rifa</h2>
     <div class="admin-card mirror">
-      <h3>Promoción / rifa activa</h3>
-      <div class="field"><label>Título</label><input id="mkTitle" value="${promo.title||''}"></div>
-      <div class="field"><label>Descripción</label><input id="mkDesc" value="${promo.desc||''}"></div>
-      <div class="row2">
-        <div class="field"><label>Texto del botón</label><input id="mkCtaText" value="${promo.ctaText||'Ver promoción'}"></div>
-        <div class="field"><label>Enlace del botón (opcional)</label><input id="mkCtaLink" value="${promo.ctaLink||''}" placeholder="https://..."></div>
-      </div>
-      <div class="field">
-        <label>Imagen de la promoción</label>
-        <div class="file-drop" onclick="document.getElementById('mkImgInput').click()">
-          <input type="file" id="mkImgInput" accept="image/*">📷 ${promo.image ? 'Cambiar imagen' : 'Subir imagen (opcional)'}
-        </div>
-        ${promo.image ? `<img src="${promo.image}" class="img-prev" style="margin-top:8px;">` : ''}
-      </div>
-      <div class="field">
-        <label>Estado</label>
-        <div class="chip-select">
-          <button id="mkActiveOn" class="${promo.active!==false?'active':''}" onclick="setPromoActive(true)">Activa</button>
-          <button id="mkActiveOff" class="${promo.active===false?'active':''}" onclick="setPromoActive(false)">Inactiva</button>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="savePromo()">Publicar promoción</button>
-      <p style="color:var(--text-dim);font-size:.75rem;margin-top:10px;">Se mostrará como pop-up al iniciar sesión (mín. 10s) y en la sección fija del catálogo.</p>
+      <label class="toggle-switch">
+        <input type="checkbox" id="rifaActiveToggle" ${rifa.active?'checked':''}>
+        <span class="toggle-track"></span>
+        <span class="toggle-label">Rifa ${rifa.active?'activada':'desactivada'} (interruptor general)</span>
+      </label>
+      <p style="color:var(--text-dim);font-size:.75rem;margin-top:8px;">Si se desactiva, todo lo relacionado a la rifa desaparece del catálogo público.</p>
     </div>
-  `;
-  window.__pendingPromoImg = promo.image || "";
-  window.__pendingPromoActive = promo.active !== false;
-  document.getElementById('mkImgInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingPromoImg = b64; });
+    <div class="admin-card mirror">
+      <h3>Configuración</h3>
+      <div class="field"><label>Título</label><input id="rfTitle" value="${escapeHtml(rifa.title||'')}"></div>
+      <div class="field"><label>Descripción</label><textarea id="rfDesc">${escapeHtml(rifa.desc||'')}</textarea></div>
+      <div class="row2">
+        <div class="field"><label>Cantidad total de números</label><input id="rfTotal" type="number" min="2" value="${rifa.totalNumbers||50}"></div>
+        <div class="field"><label>Fecha y hora del sorteo</label><input id="rfDate" type="datetime-local" value="${rifa.drawDate||''}"></div>
+      </div>
+      <div class="field"><label>Imagen (opcional)</label>
+        <div class="file-drop" onclick="document.getElementById('rfImgInput').click()">
+          <input type="file" id="rfImgInput" accept="image/*">📷 ${rifa.image ? 'Cambiar imagen' : 'Subir imagen'}
+        </div>
+        ${rifa.image ? `<img src="${rifa.image}" class="img-prev" style="margin-top:8px;">` : ''}
+      </div>
+      <button class="btn btn-primary" onclick="saveRifaConfig()">Guardar configuración</button>
+    </div>
+    <div class="admin-card mirror">
+      <h3>Participantes (${entries.length}/${rifa.totalNumbers||0})</h3>
+      <table>
+        <thead><tr><th>Número</th><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Fecha</th></tr></thead>
+        <tbody>${entries.map(e=>`<tr><td class="mono">${e.number}</td><td>${escapeHtml(e.userName)}</td><td>${escapeHtml(e.userPhone)}</td><td>${escapeHtml(e.userEmail)}</td><td>${e.claimedAt}</td></tr>`).join('') || '<tr><td colspan="5">Aún no hay participantes.</td></tr>'}</tbody>
+      </table>
+    </div>
+    <div class="admin-card mirror">
+      <h3>Sorteo</h3>
+      ${rifa.drawn ? `
+        <p style="color:var(--ok);font-weight:700;">🏆 Ganador: número ${rifa.winnerNumber} — ${rifa.winnerEntry?escapeHtml(rifa.winnerEntry.userName):''}</p>
+        <button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="resetRifa()">Reiniciar rifa (nueva ronda)</button>
+      ` : `
+        <p style="color:var(--text-dim);font-size:.85rem;">${canDraw ? 'Ya se puede realizar el sorteo.' : 'El sorteo se habilita automáticamente al llegar la fecha configurada.'}</p>
+        <button class="btn btn-gold" style="margin-top:10px;" ${canDraw?'':'disabled'} onclick="drawRifa()">🎡 Realizar sorteo</button>
+      `}
+    </div>`;
+  document.getElementById('rifaActiveToggle').onchange = (e)=>{
+    const r = getLS(LS.rifa, {}); r.active = e.target.checked; setLS(LS.rifa, r);
+    showFloatAlert(r.active ? "Rifa activada" : "Rifa desactivada", "ok"); renderAdminRifa();
+  };
+  document.getElementById('rfImgInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingRifaImg = b64; });
+  window.__pendingRifaImg = rifa.image || "";
 }
-function setPromoActive(val){
-  window.__pendingPromoActive = val;
-  document.getElementById('mkActiveOn').classList.toggle('active', val);
-  document.getElementById('mkActiveOff').classList.toggle('active', !val);
+function saveRifaConfig(){
+  const rifa = getLS(LS.rifa, {});
+  rifa.title = document.getElementById('rfTitle').value.trim() || rifa.title;
+  rifa.desc = document.getElementById('rfDesc').value.trim();
+  rifa.totalNumbers = Math.max(2, parseInt(document.getElementById('rfTotal').value) || rifa.totalNumbers);
+  rifa.drawDate = document.getElementById('rfDate').value || rifa.drawDate;
+  if(window.__pendingRifaImg) rifa.image = window.__pendingRifaImg;
+  setLS(LS.rifa, rifa);
+  showFloatAlert("Configuración de la rifa guardada", "ok");
+  renderAdminRifa();
 }
-function savePromo(){
-  const promo = getLS(LS.promo, {});
-  promo.title = document.getElementById('mkTitle').value.trim() || promo.title;
-  promo.desc = document.getElementById('mkDesc').value.trim();
-  promo.ctaText = document.getElementById('mkCtaText').value.trim() || "Ver promoción";
-  promo.ctaLink = document.getElementById('mkCtaLink').value.trim();
-  promo.image = window.__pendingPromoImg || "";
-  promo.active = window.__pendingPromoActive !== false;
-  promo.createdAt = nowStr();
-  setLS(LS.promo, promo);
-  showFloatAlert("Promoción publicada y sincronizada con el catálogo", "ok");
-  renderAdminMarketing();
+function drawRifa(){
+  const rifa = getLS(LS.rifa, {});
+  const entries = getLS(LS.rifaEntries, []);
+  if(!entries.length){ showFloatAlert("No hay participantes registrados."); return; }
+  if(!confirm("¿Realizar el sorteo ahora? Esta acción es definitiva.")) return;
+  const winner = entries[Math.floor(Math.random()*entries.length)];
+  rifa.drawn = true; rifa.winnerNumber = winner.number; rifa.winnerEntry = winner;
+  setLS(LS.rifa, rifa);
+  showFloatAlert("¡Sorteo realizado! Ganador: número " + winner.number, "ok");
+  renderAdminRifa();
+}
+function resetRifa(){
+  if(!confirm("¿Reiniciar la rifa para una nueva ronda? Se borrarán todos los participantes actuales.")) return;
+  const rifa = getLS(LS.rifa, {});
+  rifa.drawn = false; rifa.winnerNumber = null; rifa.winnerEntry = null;
+  setLS(LS.rifa, rifa); setLS(LS.rifaEntries, []);
+  wheelSpun = false;
+  showFloatAlert("Rifa reiniciada", "ok"); renderAdminRifa();
 }
 
+/* --- Admin: Anuncio / Promociones --- */
+function renderAdminPromos(){
+  const promos = getLS(LS.promos, []);
+  const c = document.getElementById('adminContent');
+  const rows = promos.map(p=>`
+    <tr>
+      <td>${escapeHtml(p.title)}</td>
+      <td><span class="pill type">${promoTypeLabel(p.type)}</span></td>
+      <td><span class="pill ${p.active?'on':'off'}">${p.active?'Activa':'Inactiva'}</span></td>
+      <td class="actions">
+        <button class="btn btn-ghost btn-sm" onclick="editPromo('${p.id}')">Editar</button>
+        <button class="btn btn-ghost btn-sm" onclick="togglePromoActive('${p.id}')">${p.active?'Desactivar':'Activar'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="copyPromoLinkAdmin('${p.code}')">Copiar enlace</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePromo('${p.id}')">Eliminar</button>
+      </td>
+    </tr>`).join('');
+  c.innerHTML = `
+    <h2>🔥 Anuncio / Promociones</h2>
+    <div class="admin-card mirror">
+      <h3>Promociones existentes</h3>
+      <table>
+        <thead><tr><th>Título</th><th>Tipo</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="4">Aún no hay promociones creadas.</td></tr>'}</tbody>
+      </table>
+      <button class="btn btn-gold btn-sm" style="margin-top:14px;" onclick="openPromoForm()">+ Nueva promoción</button>
+    </div>
+    <div id="promoFormWrap"></div>`;
+}
+function togglePromoActive(id){
+  const promos = getLS(LS.promos, []);
+  const p = promos.find(x=>x.id===id); p.active = !p.active;
+  setLS(LS.promos, promos); renderAdminPromos();
+}
+function deletePromo(id){
+  if(!confirm("¿Eliminar esta promoción?")) return;
+  const promos = getLS(LS.promos, []).filter(x=>x.id!==id);
+  setLS(LS.promos, promos); renderAdminPromos();
+}
+function copyPromoLinkAdmin(code){
+  const link = window.location.origin + window.location.pathname + "?promo=" + code;
+  const done = ()=> showFloatAlert("Enlace copiado: " + link, "ok");
+  if(navigator.clipboard){ navigator.clipboard.writeText(link).then(done).catch(()=>showFloatAlert("Enlace: " + link)); }
+  else { showFloatAlert("Enlace: " + link); }
+}
+function editPromo(id){ openPromoForm(id); }
+function promoTypeFieldsHtml(type, p){
+  p = p || {};
+  if(type==='discount'){
+    return `<div class="row2">
+      <div class="field"><label>Precio antes (CUP)</label><input id="pfPriceBefore" type="number" value="${p.priceBefore||''}"></div>
+      <div class="field"><label>Precio oferta (CUP)</label><input id="pfPriceAfter" type="number" value="${p.priceAfter||''}"></div>
+    </div>`;
+  }
+  if(type==='combo'){
+    return `<div class="field"><label>Servicios incluidos (uno por línea)</label><textarea id="pfComboItems" placeholder="100 seguidores&#10;200 vistas&#10;500 likes">${escapeHtml(p.comboItems||'')}</textarea></div>
+    <div class="field"><label>Precio del combo (CUP)</label><input id="pfComboPrice" type="number" value="${p.comboPrice||''}"></div>`;
+  }
+  if(type==='gift'){
+    return `<div class="field"><label>Condición de compra</label><input id="pfGiftCondition" placeholder="Ej: Compra la oferta de 500 seguidores" value="${escapeHtml(p.giftCondition||'')}"></div>
+    <div class="field"><label>Regalo otorgado</label><input id="pfGiftReward" placeholder="Ej: 100 likes gratis" value="${escapeHtml(p.giftReward||'')}"></div>`;
+  }
+  if(type==='percent'){
+    return `<div class="row2">
+      <div class="field"><label>Porcentaje de descuento (%)</label><input id="pfPercentValue" type="number" value="${p.percentValue||''}"></div>
+      <div class="field"><label>Precio base de referencia (CUP, opcional)</label><input id="pfPercentBase" type="number" value="${p.percentBase||''}"></div>
+    </div>`;
+  }
+  return '';
+}
+function openPromoForm(editId){
+  const promos = getLS(LS.promos, []);
+  const editing = editId ? promos.find(p=>p.id===editId) : null;
+  const box = document.getElementById('promoFormWrap');
+  box.innerHTML = `
+    <div class="admin-card mirror">
+      <h3>${editing ? 'Editar promoción' : 'Nueva promoción'}</h3>
+      <div class="row2">
+        <div class="field"><label>Título</label><input id="pfTitle" value="${editing?escapeHtml(editing.title):''}"></div>
+        <div class="field"><label>Tipo de promoción</label>
+          <select id="pfType" onchange="renderPromoTypeFields()">
+            <option value="discount" ${editing&&editing.type==='discount'?'selected':''}>Precio rebajado</option>
+            <option value="combo" ${editing&&editing.type==='combo'?'selected':''}>Armado de combos</option>
+            <option value="gift" ${editing&&editing.type==='gift'?'selected':''}>Oferta con regalo</option>
+            <option value="percent" ${editing&&editing.type==='percent'?'selected':''}>Descuento por porcentaje</option>
+            <option value="other" ${editing&&editing.type==='other'?'selected':''}>Otra variante</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Descripción</label><textarea id="pfDescPromo">${editing?escapeHtml(editing.desc||''):''}</textarea></div>
+      <div id="promoTypeFieldsWrap">${promoTypeFieldsHtml(editing?editing.type:'discount', editing)}</div>
+      <div class="field"><label>Imagen (opcional)</label>
+        <div class="file-drop" onclick="document.getElementById('pfPromoImgInput').click()">
+          <input type="file" id="pfPromoImgInput" accept="image/*">📷 ${editing&&editing.image ? 'Cambiar imagen' : 'Subir imagen'}
+        </div>
+        ${editing&&editing.image ? `<img src="${editing.image}" class="img-prev" style="margin-top:8px;">` : ''}
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary btn-sm" onclick="savePromoForm('${editId||''}')">Guardar promoción</button>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('promoFormWrap').innerHTML=''">Cancelar</button>
+      </div>
+    </div>`;
+  window.__pendingPromoFormImg = editing ? (editing.image||"") : "";
+  document.getElementById('pfPromoImgInput').onchange = (e)=> fileToBase64(e.target, (b64)=>{ window.__pendingPromoFormImg = b64; });
+}
+function renderPromoTypeFields(){
+  const type = document.getElementById('pfType').value;
+  document.getElementById('promoTypeFieldsWrap').innerHTML = promoTypeFieldsHtml(type, {});
+}
+function savePromoForm(editId){
+  const title = document.getElementById('pfTitle').value.trim();
+  const type = document.getElementById('pfType').value;
+  const desc = document.getElementById('pfDescPromo').value.trim();
+  if(!title){ showFloatAlert("Escribe un título para la promoción."); return; }
+  const promos = getLS(LS.promos, []);
+  let promo = editId ? promos.find(p=>p.id===editId) : { id: uid("PRM"), code: uid("REF"), active:true, createdAt: nowStr() };
+  promo.title = title; promo.type = type; promo.desc = desc;
+  if(window.__pendingPromoFormImg) promo.image = window.__pendingPromoFormImg;
+
+  if(type==='discount'){
+    promo.priceBefore = parseFloat(document.getElementById('pfPriceBefore').value)||0;
+    promo.priceAfter = parseFloat(document.getElementById('pfPriceAfter').value)||0;
+  } else if(type==='combo'){
+    promo.comboItems = document.getElementById('pfComboItems').value.trim();
+    promo.comboPrice = parseFloat(document.getElementById('pfComboPrice').value)||0;
+  } else if(type==='gift'){
+    promo.giftCondition = document.getElementById('pfGiftCondition').value.trim();
+    promo.giftReward = document.getElementById('pfGiftReward').value.trim();
+  } else if(type==='percent'){
+    promo.percentValue = parseFloat(document.getElementById('pfPercentValue').value)||0;
+    promo.percentBase = parseFloat(document.getElementById('pfPercentBase').value)||0;
+  }
+  if(!editId) promos.push(promo);
+  setLS(LS.promos, promos);
+  showFloatAlert("Promoción guardada", "ok");
+  renderAdminPromos();
+}
+
+/* --- Pedidos --- */
 function renderAdminPedidos(){
   const orders = getLS(LS.orders, []);
   const c = document.getElementById('adminContent');
   const rows = orders.map(o=>`
     <tr>
       <td class="mono">${o.id}</td>
-      <td>${o.userName}<br><span style="color:var(--text-dim);font-size:.72rem;">${o.userPhone}</span></td>
-      <td>${o.productName}<br><span style="color:var(--text-dim);font-size:.72rem;">${o.platform} · ${o.category}</span></td>
+      <td>${escapeHtml(o.userName)}<br><span style="color:var(--text-dim);font-size:.72rem;">${escapeHtml(o.userPhone)}</span></td>
+      <td>${escapeHtml(o.productName)}<br><span style="color:var(--text-dim);font-size:.72rem;">${escapeHtml(o.platform)} · ${escapeHtml(o.category)}</span></td>
       <td>${o.method}</td>
       <td class="mono">${fmtCUP(o.total)}</td>
+      <td>${o.promoTitle ? `<span class="pill on">${escapeHtml(o.promoTitle)}</span>` : '—'}</td>
       <td style="font-size:.75rem;color:var(--text-dim);">${o.date}</td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
   c.innerHTML = `
     <h2>🧾 Pedidos recientes</h2>
     <div class="admin-card mirror">
       <table>
-        <thead><tr><th>ID</th><th>Cliente</th><th>Producto</th><th>Método</th><th>Total</th><th>Fecha</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="6">Aún no hay pedidos registrados.</td></tr>'}</tbody>
+        <thead><tr><th>ID</th><th>Cliente</th><th>Producto</th><th>Método</th><th>Total</th><th>Promoción</th><th>Fecha</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="7">Aún no hay pedidos registrados.</td></tr>'}</tbody>
       </table>
-    </div>
-  `;
+    </div>`;
 }
 
+/* =========================================================
+   Reloj global (countdown)
+   ========================================================= */
+setInterval(()=>{
+  if(document.getElementById('rifaCountdown') && !document.getElementById('rifaScreen').classList.contains('hidden')) renderRifaCountdown();
+}, 1000);
+
+/* =========================================================
+   Arranque
+   ========================================================= */
 function boot(){
   const adminSess = getLS(LS.adminSession, null);
   if(adminSess && adminSess.ok){ enterAdmin(); return; }
   const sess = getLS(LS.session, null);
   if(sess && currentUser()){ enterApp(); return; }
   applyBranding();
+  checkPromoLinkParam();
   showClientAuth();
 }
 boot();
