@@ -258,6 +258,30 @@ h1,h2,h3,.brand,.stat-num{font-family:'Orbitron',sans-serif;}
 .winner-banner{text-align:center;padding:16px;margin:0 auto 20px;max-width:420px;}
 .winner-banner .wb-num{font-size:2.2rem;font-family:'JetBrains Mono',monospace;color:var(--gold-2);}
 
+/* ---- Ruleta a pantalla completa ---- */
+#rifaFullscreenOverlay{
+  position:fixed;inset:0;z-index:300;background:rgba(2,4,10,.94);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;
+}
+#rifaFullscreenOverlay .fw-title{font-size:1.3rem;margin-bottom:6px;}
+#rifaFullscreenOverlay .fw-sub{color:var(--text-dim);font-size:.85rem;margin-bottom:22px;}
+.wheel-xl{width:min(70vw,380px);height:min(70vw,380px);border-radius:50%;position:relative;border:8px solid var(--line);overflow:hidden;
+  transition:transform 4.5s cubic-bezier(.12,.82,.2,1);box-shadow:0 0 60px rgba(0,217,255,.35), 0 0 100px rgba(255,204,51,.15);}
+.wheel-pointer-xl{width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:28px solid var(--gold);margin-bottom:-4px;z-index:2;filter:drop-shadow(0 0 10px rgba(255,204,51,.7));}
+.wheel-label-xl{position:absolute;top:50%;left:50%;width:50%;height:2px;transform-origin:0 0;font-size:.8rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:#001018;}
+.wheel-label-xl span{display:inline-block;transform:translateX(20px) translateY(-8px);}
+#rifaFwWinner{margin-top:26px;display:none;}
+#rifaFwWinner.show{display:block;}
+#rifaFwWinner .fw-num{font-size:2.6rem;font-family:'JetBrains Mono',monospace;color:var(--gold-2);}
+#rifaFwWinner .fw-name{font-size:1.1rem;color:var(--text-dim);margin-top:4px;}
+
+.winner-fixed-banner{margin:14px 0;padding:16px 18px;display:flex;align-items:center;gap:16px;
+  background:linear-gradient(135deg, rgba(255,204,51,.1), rgba(0,217,255,.08));}
+.winner-fixed-banner .wf-icon{font-size:1.8rem;}
+.winner-fixed-banner .wf-title{font-size:.68rem;letter-spacing:1px;color:var(--gold);text-transform:uppercase;font-weight:700;}
+.winner-fixed-banner .wf-main{font-size:1rem;font-weight:700;margin-top:2px;}
+.winner-fixed-banner .wf-main b{color:var(--gold-2);font-family:'JetBrains Mono',monospace;}
+
 /* ---- Toggle switch ---- */
 .toggle-switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;}
 .toggle-switch input{display:none;}
@@ -307,8 +331,14 @@ td.actions{display:flex;gap:6px;flex-wrap:wrap;}
 .chip-select button{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text-dim);font-size:.8rem;cursor:pointer;}
 .chip-select button.active{background:var(--blue);color:#00131a;border-color:transparent;font-weight:700;}
 .link-copy{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
+
+/* ---- Modal de enlace (siempre visible) ---- */
+.ls-box{padding:22px;}
+.ls-box .ov-title{margin-top:0;}
+#lsLinkInput{width:100%;padding:11px 13px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:9px;color:var(--gold-2);font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-bottom:14px;}
 </style>
 </head>
+
 <body>
 
 <svg width="0" height="0"><defs>
@@ -379,6 +409,7 @@ td.actions{display:flex;gap:6px;flex-wrap:wrap;}
     <div class="bolt-divider"><svg viewBox="0 0 60 30"><path d="M32 2 L14 17 L24 17 L18 28 L46 12 L34 12 Z"/></svg></div>
 
     <div id="activePromoRibbonWrap"></div>
+    <div id="rifaWinnerWrap"></div>
     <div id="rifaFixedWrap"></div>
     <div id="promosFixedWrap"></div>
 
@@ -424,6 +455,20 @@ td.actions{display:flex;gap:6px;flex-wrap:wrap;}
   </div>
 </div>
 
+<!-- ============ Ruleta a pantalla completa (revelación del ganador) ============ -->
+<div id="rifaFullscreenOverlay" class="hidden">
+  <div class="fw-title">🎡 ¡La rifa "<span id="fwRifaTitle"></span>" está girando!</div>
+  <div class="fw-sub">Todos los números participantes están en juego...</div>
+  <div class="wheel-pointer-xl"></div>
+  <div class="wheel-xl" id="rifaWheelXlEl"></div>
+  <div id="rifaFwWinner">
+    <div style="color:var(--gold);font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;">🏆 Número ganador</div>
+    <div class="fw-num" id="fwWinnerNum"></div>
+    <div class="fw-name" id="fwWinnerName"></div>
+    <button class="btn btn-gold" style="margin-top:18px;" onclick="closeFullscreenWheel()">Continuar</button>
+  </div>
+</div>
+
 <!-- ============ Popup Promoción (teaser) ============ -->
 <div id="promoPopupOverlay" class="ov hidden">
   <div class="ov-modal mirror">
@@ -455,6 +500,17 @@ td.actions{display:flex;gap:6px;flex-wrap:wrap;}
       </div>
       <button class="btn btn-primary btn-block" style="margin-top:14px;" onclick="usePromoNow()">Usar esta promoción</button>
     </div>
+  </div>
+</div>
+
+<!-- ============ Modal de enlace (siempre visible, sin depender del portapapeles) ============ -->
+<div id="linkShareOverlay" class="ov hidden">
+  <div class="ov-modal mirror ls-box">
+    <button class="ov-close" onclick="closeLinkShareOverlay()">✕</button>
+    <div class="ov-tag">🔗 Enlace personalizado</div>
+    <div class="ov-title" id="lsTitle" style="font-size:1.05rem;"></div>
+    <input id="lsLinkInput" readonly onclick="this.focus();this.select();">
+    <button class="btn btn-primary btn-block" onclick="copyLinkFromModal()">📋 Copiar enlace</button>
   </div>
 </div>
 
@@ -522,12 +578,90 @@ const LS = {
   promos:"mfp_promos", activePromoCode:"mfp_active_promo_code"
 };
 
-function getLS(key, fallback){ try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
-function setLS(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+/* ---------- Almacenamiento a prueba de fallos ----------
+   Algunos navegadores (sobre todo al abrir el archivo directamente
+   con file:// en el celular) bloquean localStorage. Si eso pasa,
+   la app sigue funcionando con un respaldo en memoria en vez de
+   romperse por completo. */
+const __memStore = {};
+let __storageOK = true;
+try{ localStorage.setItem('__mfp_probe__','1'); localStorage.removeItem('__mfp_probe__'); }
+catch(e){ __storageOK = false; }
+
+function lsGet(key){
+  try{ if(__storageOK) return localStorage.getItem(key); }catch(e){ __storageOK = false; }
+  return Object.prototype.hasOwnProperty.call(__memStore, key) ? __memStore[key] : null;
+}
+function lsSet(key, value){
+  try{ if(__storageOK){ localStorage.setItem(key, value); return; } }catch(e){ __storageOK = false; }
+  __memStore[key] = value;
+}
+function lsRemove(key){
+  try{ if(__storageOK){ localStorage.removeItem(key); return; } }catch(e){ __storageOK = false; }
+  delete __memStore[key];
+}
+
+function getLS(key, fallback){ try{ const v = lsGet(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
+function setLS(key, val){ try{ lsSet(key, JSON.stringify(val)); }catch(e){} }
 function uid(prefix){ return prefix + "-" + Math.random().toString(36).slice(2,7).toUpperCase(); }
 function fmtCUP(n){ return "$" + Number(n).toLocaleString("es-CU") + " CUP"; }
 function nowStr(){ const d = new Date(); return d.toLocaleDateString("es-CU") + " " + d.toLocaleTimeString("es-CU", {hour:'2-digit', minute:'2-digit'}); }
 function escapeHtml(s){ return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- Copiado al portapapeles (con fallback robusto) ---------- */
+function legacyCopy(text){
+  try{
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.position='fixed'; ta.style.top='0'; ta.style.left='-9999px'; ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  }catch(err){ return false; }
+}
+function copyToClipboard(text, successMsg){
+  successMsg = successMsg || "Enlace copiado";
+  const finishFallback = ()=>{
+    try{
+      if(legacyCopy(text)){ showFloatAlert(successMsg, "ok"); }
+      else { showLinkModal("Copia este enlace manualmente", text); }
+    }catch(err){ showLinkModal("Copia este enlace manualmente", text); }
+  };
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(()=>showFloatAlert(successMsg, "ok")).catch(finishFallback);
+    } else {
+      finishFallback();
+    }
+  }catch(err){ finishFallback(); }
+}
+
+/* ---------- Modal de enlace (siempre visible, sin depender de permisos del navegador) ---------- */
+function showLinkModal(title, link){
+  document.getElementById('lsTitle').textContent = title;
+  const inp = document.getElementById('lsLinkInput');
+  inp.value = link;
+  document.getElementById('linkShareOverlay').classList.remove('hidden');
+  setTimeout(()=>{ inp.focus(); inp.select(); }, 60);
+}
+function closeLinkShareOverlay(){ document.getElementById('linkShareOverlay').classList.add('hidden'); }
+function copyLinkFromModal(){
+  const inp = document.getElementById('lsLinkInput');
+  inp.focus(); inp.select();
+  try{ inp.setSelectionRange(0, inp.value.length); }catch(e){}
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+  if(ok){ showFloatAlert("Enlace copiado", "ok"); return; }
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(inp.value).then(()=>showFloatAlert("Enlace copiado", "ok"))
+      .catch(()=> showFloatAlert("Mantén presionado el texto para copiarlo manualmente."));
+  } else {
+    showFloatAlert("Mantén presionado el texto para copiarlo manualmente.");
+  }
+}
 
 /* ---------- Datos iniciales ---------- */
 function defaultInstagramCategories(){
@@ -549,23 +683,23 @@ function defaultDrawDate(){
 }
 
 function initData(){
-  if(!localStorage.getItem(LS.platforms)){
+  if(!lsGet(LS.platforms)){
     setLS(LS.platforms, [{ id: uid("PLT"), name:"Instagram", icon:"📸", categories: defaultInstagramCategories() }]);
   }
-  if(!localStorage.getItem(LS.admin)){
+  if(!lsGet(LS.admin)){
     setLS(LS.admin, { username:"admin", password:"admin123", catalogName:"MaikolFollowers Pro", photo:"" });
   }
-  if(!localStorage.getItem(LS.users)) setLS(LS.users, []);
-  if(!localStorage.getItem(LS.orders)) setLS(LS.orders, []);
-  if(!localStorage.getItem(LS.rifa)){
+  if(!lsGet(LS.users)) setLS(LS.users, []);
+  if(!lsGet(LS.orders)) setLS(LS.orders, []);
+  if(!lsGet(LS.rifa)){
     setLS(LS.rifa, {
       active:true, title:"¡Rifa de 10,000 seguidores gratis!",
       desc:"Elige tu número de la suerte y participa automáticamente. El sorteo se realiza en la fecha indicada mediante ruleta en vivo.",
       image:"", totalNumbers:50, drawDate: defaultDrawDate(), drawn:false, winnerNumber:null, winnerEntry:null
     });
   }
-  if(!localStorage.getItem(LS.rifaEntries)) setLS(LS.rifaEntries, []);
-  if(!localStorage.getItem(LS.promos)){
+  if(!lsGet(LS.rifaEntries)) setLS(LS.rifaEntries, []);
+  if(!lsGet(LS.promos)){
     setLS(LS.promos, [{
       id: uid("PRM"), code: uid("REF"), type:"percent", active:true, createdAt: nowStr(),
       title:"10% de descuento en tu primer pedido", desc:"Aplica en cualquier paquete de seguidores.",
@@ -635,7 +769,7 @@ function handleLogin(e){
   if(!found){ showFloatAlert("Credenciales incorrectas. Regístrate si eres nuevo."); setAuthTab('register'); return false; }
   setLS(LS.session, { userId: found.id }); enterApp(); return false;
 }
-function logoutClient(){ localStorage.removeItem(LS.session); showClientAuth(); }
+function logoutClient(){ lsRemove(LS.session); showClientAuth(); }
 function currentUser(){
   const sess = getLS(LS.session, null); if(!sess) return null;
   const users = getLS(LS.users, []); return users.find(u=>u.id===sess.userId) || null;
@@ -651,7 +785,7 @@ function handleAdminLogin(e){
   else { showFloatAlert("Usuario o contraseña de administrador incorrectos."); }
   return false;
 }
-function logoutAdmin(){ localStorage.removeItem(LS.adminSession); showAdminLogin(); }
+function logoutAdmin(){ lsRemove(LS.adminSession); showAdminLogin(); }
 
 /* ---------- Branding ---------- */
 function applyBranding(){
@@ -670,7 +804,7 @@ function checkPromoLinkParam(){
   if(code){
     const promos = getLS(LS.promos, []);
     const promo = promos.find(p=>p.code===code && p.active);
-    if(promo){ localStorage.setItem(LS.activePromoCode, code); showFloatAlert("Promoción aplicada: " + promo.title, "ok"); }
+    if(promo){ lsSet(LS.activePromoCode, code); showFloatAlert("Promoción aplicada: " + promo.title, "ok"); }
   }
 }
 
@@ -684,10 +818,12 @@ function enterApp(){
   document.getElementById('userChip').textContent = user ? ("👤 " + user.name) : "";
   showScreen('appScreen');
   renderActivePromoRibbon();
+  renderRifaWinnerBanner();
   renderRifaFixed();
   renderPromosFixed();
   renderPlatformTabs();
   maybeShowAnnouncementPopups();
+  setTimeout(maybeShowWheelRevealOnEnter, 500);
 }
 function enterAdmin(){ applyBranding(); showScreen('adminScreen'); setAdminTab('general'); }
 
@@ -748,13 +884,13 @@ function renderProductGrid(){
    ========================================================= */
 function renderActivePromoRibbon(){
   const wrap = document.getElementById('activePromoRibbonWrap');
-  const code = localStorage.getItem(LS.activePromoCode);
+  const code = lsGet(LS.activePromoCode);
   if(!code){ wrap.innerHTML=''; return; }
   const promo = getLS(LS.promos, []).find(p=>p.code===code && p.active);
   if(!promo){ wrap.innerHTML=''; return; }
   wrap.innerHTML = `<div class="active-promo-ribbon">🎁 Promoción aplicada: <b>${escapeHtml(promo.title)}</b> <button onclick="clearActivePromo()">Quitar</button></div>`;
 }
-function clearActivePromo(){ localStorage.removeItem(LS.activePromoCode); renderActivePromoRibbon(); }
+function clearActivePromo(){ lsRemove(LS.activePromoCode); renderActivePromoRibbon(); }
 
 /* =========================================================
    MÓDULO RIFA (independiente)
@@ -764,7 +900,7 @@ function rifaEntriesForUser(userId){ return getLS(LS.rifaEntries, []).find(e=>e.
 function renderRifaFixed(){
   const rifa = getLS(LS.rifa, {});
   const wrap = document.getElementById('rifaFixedWrap');
-  if(!rifa.active){ wrap.innerHTML = ""; return; }
+  if(!rifa.active || rifa.drawn){ wrap.innerHTML = ""; return; }
   const entries = getLS(LS.rifaEntries, []);
   wrap.innerHTML = `
     <div class="announce-fixed mirror" onclick="openRifaScreen()">
@@ -779,9 +915,24 @@ function renderRifaFixed(){
     </div>`;
 }
 
+function renderRifaWinnerBanner(){
+  const rifa = getLS(LS.rifa, {});
+  const wrap = document.getElementById('rifaWinnerWrap');
+  if(!wrap) return;
+  if(!rifa.drawn){ wrap.innerHTML = ""; return; }
+  wrap.innerHTML = `
+    <div class="winner-fixed-banner mirror">
+      <div class="wf-icon">🏆</div>
+      <div>
+        <div class="wf-title">Ganador de la rifa "${escapeHtml(rifa.title)}"</div>
+        <div class="wf-main">Número <b>${rifa.winnerNumber}</b> — ${rifa.winnerEntry ? escapeHtml(rifa.winnerEntry.userName) : ''}</div>
+      </div>
+    </div>`;
+}
+
 function maybeShowAnnouncementPopups(){
   const rifa = getLS(LS.rifa, {});
-  if(rifa.active){ openRifaPopup(); } else { maybeShowPromoPopupTeaser(); }
+  if(rifa.active && !rifa.drawn){ openRifaPopup(); } else { maybeShowPromoPopupTeaser(); }
 }
 
 let rifaPopCanClose=false, rifaPopTimer=null;
@@ -900,10 +1051,10 @@ function registerRifaNumber(n){
 }
 
 function shareRifaLink(){
-  const link = window.location.origin + window.location.pathname;
-  const done = ()=> showFloatAlert("Enlace copiado. ¡Compártelo con tus amigos!", "ok");
-  if(navigator.clipboard){ navigator.clipboard.writeText(link).then(done).catch(()=>showFloatAlert("No se pudo copiar. Enlace: " + link)); }
-  else { showFloatAlert("Enlace: " + link); }
+  const user = currentUser();
+  const base = window.location.origin + window.location.pathname;
+  const link = user ? (base + "?ref=" + encodeURIComponent(user.id)) : base;
+  showLinkModal("Tu enlace personalizado — compártelo con tus amigos", link);
 }
 
 function renderRifaCountdown(){
@@ -924,15 +1075,13 @@ function renderRifaCountdown(){
     <div class="cbox"><b>${s}</b><span>Seg</span></div>`;
 }
 
-/* Ruleta */
+/* Ruleta — helpers compartidos */
 function buildWheelHtml(entries, winnerNumber, showBanner){
   if(!entries.length) return '<div class="empty-note">No hubo participantes registrados.</div>';
   return `<div class="wheel-wrap"><div class="wheel-pointer"></div><div class="wheel" id="rifaWheelEl"></div></div>`;
 }
-let wheelSpun = false;
-function spinWheelToWinner(entries, winnerNumber){
-  const el = document.getElementById('rifaWheelEl');
-  if(!el || !entries.length) return;
+function buildWheelSegments(el, entries, labelClass){
+  labelClass = labelClass || 'wheel-label';
   const n = entries.length;
   const colors = ['#00d9ff','#ffcc33'];
   const seg = 360/n;
@@ -944,16 +1093,65 @@ function spinWheelToWinner(entries, winnerNumber){
   entries.forEach((e,i)=>{
     const mid = seg*i + seg/2;
     const lbl = document.createElement('div');
-    lbl.className='wheel-label';
+    lbl.className = labelClass;
     lbl.style.transform = `rotate(${mid}deg)`;
     lbl.innerHTML = `<span>${e.number}</span>`;
     el.appendChild(lbl);
   });
+}
+let wheelSpun = false;
+function spinWheelToWinner(entries, winnerNumber){
+  const el = document.getElementById('rifaWheelEl');
+  if(!el || !entries.length) return;
+  buildWheelSegments(el, entries);
+  const n = entries.length;
+  const seg = 360/n;
   if(wheelSpun) { el.style.transform = el.dataset.finalRotation ? `rotate(${el.dataset.finalRotation}deg)` : ''; return; }
   const winIdx = entries.findIndex(e=>e.number===winnerNumber);
   const winMid = seg*winIdx + seg/2;
   const finalRotation = 360*5 + (360 - winMid);
   requestAnimationFrame(()=>{ el.style.transform = `rotate(${finalRotation}deg)`; el.dataset.finalRotation = finalRotation; wheelSpun = true; });
+}
+
+/* Ruleta a PANTALLA COMPLETA — se activa automáticamente al finalizar el tiempo de la rifa */
+function openFullWheel(entries, winnerNumber, winnerEntry, rifaTitle){
+  if(!entries || !entries.length) return;
+  const ov = document.getElementById('rifaFullscreenOverlay');
+  ov.classList.remove('hidden');
+  document.getElementById('fwRifaTitle').textContent = rifaTitle;
+  document.getElementById('rifaFwWinner').classList.remove('show');
+  document.getElementById('fwWinnerNum').textContent = '';
+  document.getElementById('fwWinnerName').textContent = '';
+  const el = document.getElementById('rifaWheelXlEl');
+  el.style.transition = 'none';
+  el.style.transform = 'rotate(0deg)';
+  buildWheelSegments(el, entries, 'wheel-label-xl');
+  void el.offsetWidth;
+  const n = entries.length;
+  const seg = 360/n;
+  const winIdx = entries.findIndex(e=>e.number===winnerNumber);
+  const winMid = seg*winIdx + seg/2;
+  const finalRotation = 360*6 + (360 - winMid);
+  el.style.transition = 'transform 4.5s cubic-bezier(.12,.82,.2,1)';
+  requestAnimationFrame(()=>{ el.style.transform = `rotate(${finalRotation}deg)`; });
+  setTimeout(()=>{
+    document.getElementById('fwWinnerNum').textContent = winnerNumber;
+    document.getElementById('fwWinnerName').textContent = winnerEntry ? winnerEntry.userName : '';
+    document.getElementById('rifaFwWinner').classList.add('show');
+  }, 4700);
+}
+function closeFullscreenWheel(){ document.getElementById('rifaFullscreenOverlay').classList.add('hidden'); }
+
+/* Muestra la ruleta a quien entra a la app y aún no la ha visto para el sorteo actual */
+function maybeShowWheelRevealOnEnter(){
+  const rifa = getLS(LS.rifa, {});
+  if(!rifa.drawn || !rifa.drawId) return;
+  const seen = lsGet('mfp_rifa_wheel_seen');
+  if(seen === rifa.drawId) return;
+  const entries = getLS(LS.rifaEntries, []);
+  if(!entries.length || !rifa.winnerEntry){ lsSet('mfp_rifa_wheel_seen', rifa.drawId); return; }
+  openFullWheel(entries, rifa.winnerNumber, rifa.winnerEntry, rifa.title);
+  lsSet('mfp_rifa_wheel_seen', rifa.drawId);
 }
 
 /* =========================================================
@@ -1051,14 +1249,12 @@ function openPromoDetail(id){
 function closePromoDetail(){ document.getElementById('promoDetailOverlay').classList.add('hidden'); }
 function copyPromoLink(){
   const link = document.getElementById('pdLink').textContent;
-  const done = ()=> showFloatAlert("Enlace copiado", "ok");
-  if(navigator.clipboard){ navigator.clipboard.writeText(link).then(done).catch(()=>showFloatAlert("No se pudo copiar. Enlace: " + link)); }
-  else { showFloatAlert("Enlace: " + link); }
+  showLinkModal("Enlace personalizado de la promoción", link);
 }
 function usePromoNow(){
   const p = getLS(LS.promos, []).find(x=>x.id===promoDetailId);
   if(!p) return;
-  localStorage.setItem(LS.activePromoCode, p.code);
+  lsSet(LS.activePromoCode, p.code);
   closePromoDetail();
   renderActivePromoRibbon();
   showFloatAlert("Promoción activada para tu próxima compra", "ok");
@@ -1079,7 +1275,7 @@ function openBuyModal(plat, cat, prod){
   document.getElementById('confirmBuyBtn').disabled = true;
   document.getElementById('surgeAnim').classList.remove('show');
 
-  const code = localStorage.getItem(LS.activePromoCode);
+  const code = lsGet(LS.activePromoCode);
   const promo = code ? getLS(LS.promos, []).find(p=>p.code===code && p.active) : null;
   document.getElementById('buyPromoTagWrap').innerHTML = promo ? `<div class="buy-promo-tag">🎁 Promoción aplicada: <b>${escapeHtml(promo.title)}</b></div>` : '';
 
@@ -1103,7 +1299,7 @@ function confirmPurchase(){
   if(!user){ showFloatAlert("Sesión no válida, inicia sesión de nuevo."); showClientAuth(); return; }
   const price = buyCtx.method==='Transferencia' ? buyCtx.prod.priceTransfer : buyCtx.prod.priceSaldo;
 
-  const code = localStorage.getItem(LS.activePromoCode);
+  const code = lsGet(LS.activePromoCode);
   const promo = code ? getLS(LS.promos, []).find(p=>p.code===code && p.active) : null;
 
   const order = {
@@ -1157,9 +1353,9 @@ function renderAdminGeneral(){
       <div class="row2">
         <div class="field"><label>Nombre del catálogo</label><input id="genName" value="${escapeHtml(admin.catalogName||'')}"></div>
         <div class="field"><label>Foto de perfil</label>
-          <div class="file-drop" onclick="document.getElementById('genPhotoInput').click()">
-            <input type="file" id="genPhotoInput" accept="image/*">📷 ${admin.photo ? 'Cambiar imagen' : 'Subir imagen'}
-          </div>
+          <label class="file-drop" for="genPhotoInput">
+            <input type="file" id="genPhotoInput" accept="image/*" capture="environment">📷 ${admin.photo ? 'Cambiar imagen (desde galería)' : 'Toca para elegir desde la galería'}
+          </label>
         </div>
       </div>
       <div style="margin-top:14px;">${admin.photo ? `<img src="${admin.photo}" class="img-prev">` : ''}</div>
@@ -1317,9 +1513,9 @@ function openProductForm(catId, editProdId){
         <div class="field"><label>Precio Saldo Móvil (CUP)</label><input id="pfSaldo" type="number" value="${editing?editing.priceSaldo:''}"></div>
       </div>
       <div class="field"><label>Imagen del producto</label>
-        <div class="file-drop" onclick="document.getElementById('pfImgInput').click()">
-          <input type="file" id="pfImgInput" accept="image/*">📷 ${editing&&editing.image ? 'Cambiar imagen' : 'Subir imagen (opcional)'}
-        </div>
+        <label class="file-drop" for="pfImgInput">
+          <input type="file" id="pfImgInput" accept="image/*" capture="environment">📷 ${editing&&editing.image ? 'Cambiar imagen (desde galería)' : 'Toca para elegir desde la galería'}
+        </label>
         ${editing&&editing.image ? `<img src="${editing.image}" class="img-prev" style="margin-top:8px;">` : ''}
       </div>
       <div style="display:flex;gap:10px;">
@@ -1382,9 +1578,9 @@ function renderAdminRifa(){
         <div class="field"><label>Fecha y hora del sorteo</label><input id="rfDate" type="datetime-local" value="${rifa.drawDate||''}"></div>
       </div>
       <div class="field"><label>Imagen (opcional)</label>
-        <div class="file-drop" onclick="document.getElementById('rfImgInput').click()">
-          <input type="file" id="rfImgInput" accept="image/*">📷 ${rifa.image ? 'Cambiar imagen' : 'Subir imagen'}
-        </div>
+        <label class="file-drop" for="rfImgInput">
+          <input type="file" id="rfImgInput" accept="image/*" capture="environment">📷 ${rifa.image ? 'Cambiar imagen (desde galería)' : 'Toca para elegir desde la galería'}
+        </label>
         ${rifa.image ? `<img src="${rifa.image}" class="img-prev" style="margin-top:8px;">` : ''}
       </div>
       <button class="btn btn-primary" onclick="saveRifaConfig()">Guardar configuración</button>
@@ -1398,12 +1594,19 @@ function renderAdminRifa(){
     </div>
     <div class="admin-card mirror">
       <h3>Sorteo</h3>
-      ${rifa.drawn ? `
-        <p style="color:var(--ok);font-weight:700;">🏆 Ganador: número ${rifa.winnerNumber} — ${rifa.winnerEntry?escapeHtml(rifa.winnerEntry.userName):''}</p>
-        <button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="resetRifa()">Reiniciar rifa (nueva ronda)</button>
+      ${rifa.drawn ? (rifa.winnerEntry ? `
+        <p style="color:var(--ok);font-weight:700;">🏆 Ganador: número ${rifa.winnerNumber} — ${escapeHtml(rifa.winnerEntry.userName)}</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+          <button class="btn btn-primary btn-sm" onclick="waWinnerLink()">📲 Escribir al ganador por WhatsApp</button>
+          <button class="btn btn-gold btn-sm" onclick="replayFullWheel()">🎡 Ver ruleta de nuevo</button>
+          <button class="btn btn-danger btn-sm" onclick="resetRifa()">Reiniciar rifa (nueva ronda)</button>
+        </div>
       ` : `
-        <p style="color:var(--text-dim);font-size:.85rem;">${canDraw ? 'Ya se puede realizar el sorteo.' : 'El sorteo se habilita automáticamente al llegar la fecha configurada.'}</p>
-        <button class="btn btn-gold" style="margin-top:10px;" ${canDraw?'':'disabled'} onclick="drawRifa()">🎡 Realizar sorteo</button>
+        <p style="color:var(--text-dim);">El sorteo se realizó pero no hubo participantes registrados.</p>
+        <button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="resetRifa()">Reiniciar rifa</button>
+      `) : `
+        <p style="color:var(--text-dim);font-size:.85rem;">El sorteo se realiza automáticamente (con ruleta a pantalla completa) en cuanto se cumple la fecha configurada, siempre que haya al menos un participante. También puedes forzarlo manualmente.</p>
+        <button class="btn btn-gold" style="margin-top:10px;" ${entries.length?'':'disabled'} onclick="drawRifa()">🎡 Realizar sorteo ahora</button>
       `}
     </div>`;
   document.getElementById('rifaActiveToggle').onchange = (e)=>{
@@ -1424,24 +1627,77 @@ function saveRifaConfig(){
   showFloatAlert("Configuración de la rifa guardada", "ok");
   renderAdminRifa();
 }
-function drawRifa(){
+
+/* Ejecuta el sorteo (elige ganador) y devuelve el resultado, o null si no aplica */
+function runRifaDraw(){
   const rifa = getLS(LS.rifa, {});
+  if(rifa.drawn) return null;
+  const entries = getLS(LS.rifaEntries, []);
+  if(!entries.length) return null;
+  const winner = entries[Math.floor(Math.random()*entries.length)];
+  rifa.drawn = true; rifa.winnerNumber = winner.number; rifa.winnerEntry = winner; rifa.drawId = uid("DRAW");
+  setLS(LS.rifa, rifa);
+  return { rifa, entries, winner };
+}
+
+/* Botón manual del admin */
+function drawRifa(){
   const entries = getLS(LS.rifaEntries, []);
   if(!entries.length){ showFloatAlert("No hay participantes registrados."); return; }
   if(!confirm("¿Realizar el sorteo ahora? Esta acción es definitiva.")) return;
-  const winner = entries[Math.floor(Math.random()*entries.length)];
-  rifa.drawn = true; rifa.winnerNumber = winner.number; rifa.winnerEntry = winner;
-  setLS(LS.rifa, rifa);
-  showFloatAlert("¡Sorteo realizado! Ganador: número " + winner.number, "ok");
+  const result = runRifaDraw();
+  if(!result) return;
+  lsSet('mfp_rifa_wheel_seen', result.rifa.drawId);
+  openFullWheel(result.entries, result.winner.number, result.winner, result.rifa.title);
+  showFloatAlert("¡Sorteo realizado! Ganador: número " + result.winner.number, "ok");
   renderAdminRifa();
+  renderRifaFixed();
+  renderRifaWinnerBanner();
 }
+function replayFullWheel(){
+  const rifa = getLS(LS.rifa, {});
+  const entries = getLS(LS.rifaEntries, []);
+  if(!rifa.drawn || !rifa.winnerEntry || !entries.length) return;
+  openFullWheel(entries, rifa.winnerNumber, rifa.winnerEntry, rifa.title);
+}
+function waWinnerLink(){
+  const rifa = getLS(LS.rifa, {});
+  if(!rifa.drawn || !rifa.winnerEntry) return;
+  const phone = (rifa.winnerEntry.userPhone||'').replace(/\D/g,'');
+  if(!phone){ showFloatAlert("El ganador no tiene un teléfono válido registrado."); return; }
+  const msg = encodeURIComponent(`⚡ ¡Felicidades ${rifa.winnerEntry.userName}! Ganaste la rifa "${rifa.title}" con el número ${rifa.winnerNumber}. Contáctanos aquí mismo para coordinar la entrega de tu premio 🎉`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+}
+
+/* Chequeo automático: se ejecuta cada segundo mientras la app está abierta */
+function checkAutoDraw(){
+  const rifa = getLS(LS.rifa, {});
+  if(!rifa.active || rifa.drawn || !rifa.drawDate) return;
+  if(Date.now() < new Date(rifa.drawDate).getTime()) return;
+  const entries = getLS(LS.rifaEntries, []);
+  if(!entries.length){
+    rifa.drawn = true; rifa.winnerNumber = null; rifa.winnerEntry = null; rifa.drawId = uid("DRAW");
+    setLS(LS.rifa, rifa);
+    lsSet('mfp_rifa_wheel_seen', rifa.drawId);
+    renderRifaFixed(); renderRifaWinnerBanner();
+    return;
+  }
+  const result = runRifaDraw();
+  if(!result) return;
+  lsSet('mfp_rifa_wheel_seen', result.rifa.drawId);
+  openFullWheel(result.entries, result.winner.number, result.winner, result.rifa.title);
+  renderRifaFixed(); renderRifaWinnerBanner();
+  if(!document.getElementById('rifaScreen').classList.contains('hidden')) renderRifaScreenContent();
+  if(!document.getElementById('adminScreen').classList.contains('hidden') && adminTab==='rifa') renderAdminRifa();
+}
+
 function resetRifa(){
   if(!confirm("¿Reiniciar la rifa para una nueva ronda? Se borrarán todos los participantes actuales.")) return;
   const rifa = getLS(LS.rifa, {});
-  rifa.drawn = false; rifa.winnerNumber = null; rifa.winnerEntry = null;
+  rifa.drawn = false; rifa.winnerNumber = null; rifa.winnerEntry = null; rifa.drawId = null;
   setLS(LS.rifa, rifa); setLS(LS.rifaEntries, []);
   wheelSpun = false;
-  showFloatAlert("Rifa reiniciada", "ok"); renderAdminRifa();
+  showFloatAlert("Rifa reiniciada", "ok"); renderAdminRifa(); renderRifaFixed(); renderRifaWinnerBanner();
 }
 
 /* --- Admin: Anuncio / Promociones --- */
@@ -1484,9 +1740,7 @@ function deletePromo(id){
 }
 function copyPromoLinkAdmin(code){
   const link = window.location.origin + window.location.pathname + "?promo=" + code;
-  const done = ()=> showFloatAlert("Enlace copiado: " + link, "ok");
-  if(navigator.clipboard){ navigator.clipboard.writeText(link).then(done).catch(()=>showFloatAlert("Enlace: " + link)); }
-  else { showFloatAlert("Enlace: " + link); }
+  showLinkModal("Enlace personalizado de la promoción", link);
 }
 function editPromo(id){ openPromoForm(id); }
 function promoTypeFieldsHtml(type, p){
@@ -1535,9 +1789,9 @@ function openPromoForm(editId){
       <div class="field"><label>Descripción</label><textarea id="pfDescPromo">${editing?escapeHtml(editing.desc||''):''}</textarea></div>
       <div id="promoTypeFieldsWrap">${promoTypeFieldsHtml(editing?editing.type:'discount', editing)}</div>
       <div class="field"><label>Imagen (opcional)</label>
-        <div class="file-drop" onclick="document.getElementById('pfPromoImgInput').click()">
-          <input type="file" id="pfPromoImgInput" accept="image/*">📷 ${editing&&editing.image ? 'Cambiar imagen' : 'Subir imagen'}
-        </div>
+        <label class="file-drop" for="pfPromoImgInput">
+          <input type="file" id="pfPromoImgInput" accept="image/*" capture="environment">📷 ${editing&&editing.image ? 'Cambiar imagen (desde galería)' : 'Toca para elegir desde la galería'}
+        </label>
         ${editing&&editing.image ? `<img src="${editing.image}" class="img-prev" style="margin-top:8px;">` : ''}
       </div>
       <div style="display:flex;gap:10px;">
@@ -1589,42 +1843,4 @@ function renderAdminPedidos(){
     <tr>
       <td class="mono">${o.id}</td>
       <td>${escapeHtml(o.userName)}<br><span style="color:var(--text-dim);font-size:.72rem;">${escapeHtml(o.userPhone)}</span></td>
-      <td>${escapeHtml(o.productName)}<br><span style="color:var(--text-dim);font-size:.72rem;">${escapeHtml(o.platform)} · ${escapeHtml(o.category)}</span></td>
-      <td>${o.method}</td>
-      <td class="mono">${fmtCUP(o.total)}</td>
-      <td>${o.promoTitle ? `<span class="pill on">${escapeHtml(o.promoTitle)}</span>` : '—'}</td>
-      <td style="font-size:.75rem;color:var(--text-dim);">${o.date}</td>
-    </tr>`).join('');
-  c.innerHTML = `
-    <h2>🧾 Pedidos recientes</h2>
-    <div class="admin-card mirror">
-      <table>
-        <thead><tr><th>ID</th><th>Cliente</th><th>Producto</th><th>Método</th><th>Total</th><th>Promoción</th><th>Fecha</th></tr></thead>
-        <tbody>${rows || '<tr><td colspan="7">Aún no hay pedidos registrados.</td></tr>'}</tbody>
-      </table>
-    </div>`;
-}
-
-/* =========================================================
-   Reloj global (countdown)
-   ========================================================= */
-setInterval(()=>{
-  if(document.getElementById('rifaCountdown') && !document.getElementById('rifaScreen').classList.contains('hidden')) renderRifaCountdown();
-}, 1000);
-
-/* =========================================================
-   Arranque
-   ========================================================= */
-function boot(){
-  const adminSess = getLS(LS.adminSession, null);
-  if(adminSess && adminSess.ok){ enterAdmin(); return; }
-  const sess = getLS(LS.session, null);
-  if(sess && currentUser()){ enterApp(); return; }
-  applyBranding();
-  checkPromoLinkParam();
-  showClientAuth();
-}
-boot();
-</script>
-</body>
-</html>
+      <td>${escapeHtml(o.pr
